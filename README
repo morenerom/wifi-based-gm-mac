@@ -1,19 +1,36 @@
-This is ns-3-allinone.
+This project is for Wi-Fi based GM-MAC protocol simulation.
+--------------------------------------------------
+Development Environment
+* Ubuntu 18.04 LTS
+* NS-3.29
+--------------------------------------------------
+Language
+* C++
+* Python
+--------------------------------------------------
+Version 1.0
+* Group number initialization
+- wifi-simple-adhoc.cc
+- adhoc-wifi-mac
+- wifi-mac-header
 
-If you have downloaded this in tarball release format, this directory
-contains some released ns-3 version, along with 3rd party components
-necessary to support all optional ns-3 features, such as Python
-bindings and the Network Animator.  In this case, just run the
-script build.py; all the components, plus ns-3 itself, will thus be
-built.  This directory also contains the bake build tool, which allows
-access to several additional modules including the Network Simulation
-Cradle, Direct Code Execution environment, and click and openflow 
-extensions for ns-3.
+* Data transmission
+- wifi-simple-adhoc
+- adhoc-wifi-mac
+- gm-data-header
+- wifi-mac-header
+- node
 
-If you have downloaded this from mercurial, the download.py script will
-download bake, netanim, pybindgen, and ns-3-dev.  The usage to use
-basic ns-3 (netanim and ns-3-dev) is to type:
-./download.py
-./build.py
-and cd into ns-3-dev for further work.  Consult the bake documentation
-on how to use bake to access optional ns-3 components.
+* Group number resetting when a sensor node can't receive CTS packet for 7 RTS
+- adhoc-wifi-mac
+- mac-low
+
+* Sensor node sleep based on T-MAC protocol (610ms superframe, 15ms TA)
+- adhoc-wifi-mac
+- mac-low
+- node
+- wifi-mac-header
+
+* etc
+- wifi-helper
+--------------------------------------------------
