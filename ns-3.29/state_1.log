@@ -1,0 +1,6 @@
+0.028    state=IDLE start=+0.0ns duration=+28000033.0ns
+0.02872    state=RX start=+28000033.0ns duration=+720000.0ns
+0.02909    state=IDLE start=+28720033.0ns duration=+370000.0ns
+0.02909    state=TX start=+29090033.0ns duration=+512000.0ns
+1.019    state=IDLE start=+29602033.0ns duration=+989398000.0ns
+1.01972    state=RX start=+1019000033.0ns duration=+720000.0ns

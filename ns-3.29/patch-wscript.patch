@@ -1,0 +1,12 @@
+diff -r cb31a3f56a28 wscript
+--- a/wscript	Wed Sep 26 18:47:36 2018 +0200
++++ b/wscript	Fri Sep 28 10:47:07 2018 +0200
+@@ -707,7 +707,7 @@
+     program.target = "%s%s-%s%s" % (wutils.APPNAME, wutils.VERSION, name, bld.env.BUILD_SUFFIX)
+ 
+     if bld.env['ENABLE_SUDO']:
+-        program.create_task("SuidBuild")
++        program.create_task("SuidBuild_task")
+ 
+     bld.set_group(grp)
+ 

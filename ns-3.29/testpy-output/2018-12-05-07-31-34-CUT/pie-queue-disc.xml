@@ -1,0 +1,10 @@
+<Test>
+  <Name>pie-queue-disc</Name>
+  <Result>PASS</Result>
+  <Time real="0.260" user="0.210" system="0.000"/>
+  <Test>
+    <Name>Sanity check on the pie queue disc implementation</Name>
+    <Result>PASS</Result>
+    <Time real="0.260" user="0.210" system="0.000"/>
+  </Test>
+</Test>

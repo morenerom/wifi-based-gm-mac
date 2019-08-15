@@ -1,0 +1,30 @@
+<Test>
+  <Name>tcp-datasentcb</Name>
+  <Result>PASS</Result>
+  <Time real="0.850" user="0.680" system="0.010"/>
+  <Test>
+    <Name>Check the data sent callback</Name>
+    <Result>PASS</Result>
+    <Time real="0.140" user="0.040" system="0.010"/>
+  </Test>
+  <Test>
+    <Name>Check the data sent callback</Name>
+    <Result>PASS</Result>
+    <Time real="0.080" user="0.070" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>Check the data sent callback</Name>
+    <Result>PASS</Result>
+    <Time real="0.250" user="0.190" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>Check the data sent callback</Name>
+    <Result>PASS</Result>
+    <Time real="0.070" user="0.070" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>Check the data sent callback</Name>
+    <Result>PASS</Result>
+    <Time real="0.300" user="0.300" system="0.000"/>
+  </Test>
+</Test>

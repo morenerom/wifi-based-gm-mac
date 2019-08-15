@@ -1,0 +1,10 @@
+<Test>
+  <Name>red-queue-disc</Name>
+  <Result>PASS</Result>
+  <Time real="0.400" user="0.360" system="0.010"/>
+  <Test>
+    <Name>Sanity check on the red queue implementation</Name>
+    <Result>PASS</Result>
+    <Time real="0.400" user="0.360" system="0.010"/>
+  </Test>
+</Test>

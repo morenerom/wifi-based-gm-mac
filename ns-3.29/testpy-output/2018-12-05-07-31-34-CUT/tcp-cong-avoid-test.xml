@@ -1,0 +1,105 @@
+<Test>
+  <Name>tcp-cong-avoid-test</Name>
+  <Result>PASS</Result>
+  <Time real="0.910" user="0.880" system="0.010"/>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.030" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.030" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.020" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.040" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.040" user="0.030" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.050" user="0.060" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.040" user="0.030" system="0.010"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.070" user="0.070" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.040" user="0.050" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpNewReno</Name>
+    <Result>PASS</Result>
+    <Time real="0.100" user="0.090" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.020" user="0.020" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.020" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.020" user="0.030" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.050" user="0.040" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.030" user="0.030" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.050" user="0.050" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.040" user="0.040" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.070" user="0.070" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=500,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.050" user="0.050" system="0.000"/>
+  </Test>
+  <Test>
+    <Name>cong avoid MSS=500, pkt_size=1000,ns3::TcpWestwood</Name>
+    <Result>PASS</Result>
+    <Time real="0.080" user="0.080" system="0.000"/>
+  </Test>
+</Test>

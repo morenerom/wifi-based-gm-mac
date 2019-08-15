@@ -1,0 +1,15 @@
+<Test>
+  <Name>wimax-ss-mac-layer</Name>
+  <Result>PASS</Result>
+  <Time real="1.030" user="1.000" system="0.010"/>
+  <Test>
+    <Name>Test the network entry procedure</Name>
+    <Result>PASS</Result>
+    <Time real="0.570" user="0.550" system="0.010"/>
+  </Test>
+  <Test>
+    <Name>Test if the management connections are correctly setup</Name>
+    <Result>PASS</Result>
+    <Time real="0.460" user="0.450" system="0.000"/>
+  </Test>
+</Test>

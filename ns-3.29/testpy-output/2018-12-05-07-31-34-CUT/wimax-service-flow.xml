@@ -1,0 +1,10 @@
+<Test>
+  <Name>wimax-service-flow</Name>
+  <Result>PASS</Result>
+  <Time real="0.390" user="0.300" system="0.010"/>
+  <Test>
+    <Name>Test the service flow tlv implementation.</Name>
+    <Result>PASS</Result>
+    <Time real="0.390" user="0.300" system="0.010"/>
+  </Test>
+</Test>
