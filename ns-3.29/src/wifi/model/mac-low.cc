@@ -140,6 +140,18 @@ MacLow::~MacLow ()
 }
 
 void MacLow::Sleep(void) {
+  Ptr<Node> n = m_stationManager->GetNode();
+  //NS_LOG_UNCOND(Simulator::Now() << " " << n->GetId()+1 << " MacLow::Sleep");
+  Ptr<Node> node = m_stationManager->GetNode();
+  Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
+  Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
+  Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
+  basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.0));
+  basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.0));
+  basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.0));
+  basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.0));
+
+  NotifySleepNow();
   m_phy->SetSleepMode();
 }
 
@@ -470,6 +482,12 @@ MacLow::SetEnqueueCallback (Callback<void, Ptr<const Packet>, Mac48Address> call
 }
 
 void
+MacLow::CancelTACallback (Callback<void> callback)
+{
+  m_cancelTACallback = callback;
+}
+
+void
 MacLow::RegisterDcf (Ptr<ChannelAccessManager> dcf)
 {
   m_channelAccessManagers.push_back (dcf);
@@ -719,7 +737,10 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
 
   // GM-MAC Sleep
   Ptr<Node> node = m_stationManager->GetNode();
-  m_TAId.Cancel();
+
+  m_TAId.Cancel(); // cancel current mac-low sleep event
+  m_cancelTACallback();
+
   void (MacLow::*fp)(void) = &MacLow::Sleep;
   m_TAId = Simulator::Schedule(MilliSeconds(node->GetTA()), fp, this); // create new schedule
 
@@ -1389,7 +1410,10 @@ MacLow::ForwardDown (Ptr<const Packet> packet, const WifiMacHeader* hdr, WifiTxV
                 ", seq=0x" << std::hex << m_currentHdr.GetSequenceControl () << std::dec);
   // GM-MAC Sleep
   Ptr<Node> node = m_stationManager->GetNode();
+
   m_TAId.Cancel();
+  m_cancelTACallback();
+
   void (MacLow::*fp)(void) = &MacLow::Sleep;
   m_TAId = Simulator::Schedule(MilliSeconds(node->GetTA()), fp, this); // create new schedule
 
@@ -2080,6 +2104,7 @@ MacLow::EndTxNoAck (void)
 void
 MacLow::SendAckAfterData (Mac48Address source, Time duration, WifiMode dataTxMode, double dataSnr)
 {
+  //NS_LOG_UNCOND("MacLow::SendAckAfterData");
   NS_LOG_FUNCTION (this);
   // send an ACK, after SIFS, when you receive a packet
   WifiTxVector ackTxVector = GetAckTxVector (source, dataTxMode);

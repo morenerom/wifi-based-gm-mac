@@ -59,11 +59,24 @@ AdhocWifiMac::AdhocWifiMac ()
 
   m_low->SetStateCallback (MakeCallback (&AdhocWifiMac::SetStateType, this));
   m_low->SetEnqueueCallback (MakeCallback (&AdhocWifiMac::Enqueue, this));
+  m_low->CancelTACallback (MakeCallback(&AdhocWifiMac::CancelTA, this));
 }
 
 AdhocWifiMac::~AdhocWifiMac ()
 {
   NS_LOG_FUNCTION (this);
+}
+
+void AdhocWifiMac::StartRequest(void) {
+  SetStateType(REQUEST);
+  Ptr<Packet> packet = Create<Packet> (0);
+  Mac48Address m("ff:ff:ff:ff:ff:ff");
+  Enqueue(packet, m);
+}
+
+void AdhocWifiMac::CancelTA (void) {
+  //NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::CancelTA");
+  m_TAId.Cancel();
 }
 
 StateType AdhocWifiMac::GetStateType (void) {
@@ -127,9 +140,18 @@ void AdhocWifiMac::ReceiveData(Ptr<Packet> p, const WifiMacHeader *hdr) {
     tmp->SetDataType(tmpDataType[i]);
     tmp->SetNodeId(tmpNodeId[i]);
     tmp->SetData(tmpData[i]);
+    //
     if(node->GetId() == 0)    // arrival time is recorded when the data arrives at sink
+    {
       tmp->SetArrTime(Simulator::Now().GetTimeStep());
-
+      node->AddData(tmp);
+      node->AddDataAmount(12);
+      // If there is any requirement for saving node information, use File I/O here.
+      
+      // sink buffer clear
+      node->BufferClear();
+      return;
+    }
     node->AddData(tmp);
     node->AddDataAmount(12);
   }
@@ -146,13 +168,29 @@ void AdhocWifiMac::ReceiveData(Ptr<Packet> p, const WifiMacHeader *hdr) {
     DataTransmission();
   }
 }
+
+void AdhocWifiMac::Sleep(void) {
+  m_low->Sleep();
+}
 // GM-MAC
 void AdhocWifiMac::Active(void) {
   Ptr<Node> node = m_stationManager->GetNode();
+
+  void (AdhocWifiMac::*p)(void) = &AdhocWifiMac::Sleep;
+  m_TAId = Simulator::Schedule(MilliSeconds(node->GetTA()), p, this);
+
   void (AdhocWifiMac::*fp)(void) = &AdhocWifiMac::Active;
   m_activeId = Simulator::Schedule(MilliSeconds(node->GetFrameSize()), fp, this); // create new schedule
 
-  m_phy->ResumeFromSleep();//GM-MAC : activing
+  Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
+  Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
+  Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
+  basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.313));
+  basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.38));
+  basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.273));
+  basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.273));
+
+  m_phy->ResumeFromSleep(); //GM-MAC : activing
 
   if(node->GetDataAmount() >= node->GetBufferThreshold() && node->GetId() != 0 && GetStateType() == SET) {
     DataTransmission();
@@ -305,7 +343,7 @@ AdhocWifiMac::Enqueue (Ptr<const Packet> packet, Mac48Address to)
         hdr.SetCtrlPktType(WIFI_MAC_GM_REQUEST);
 
         void (AdhocWifiMac::*fp)(void) = &AdhocWifiMac::SelectParentNode;
-        Simulator::Schedule(MilliSeconds(1000), fp, this);
+        Simulator::Schedule(MilliSeconds(50), fp, this);
       }
       else if(GetStateType() == REPLY) {
         NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REPLY from " << node->GetId() + 1 << " to " << to);
@@ -423,10 +461,14 @@ AdhocWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
       }
       else if(hdr->GetCtrlPktType() == WIFI_MAC_GM_REQUEST) { //GM-MAC : 'WIFI_MAC_GM_REQUEST' : request format
         //NS_LOG_UNCOND("AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST");
-        //if(from != node->GetParentMacAddress()) {
+        if(from != node->GetParentMacAddress()) {
+          NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST::NOTPARENT");
           SetStateType(REPLY);
           Enqueue(Create<Packet> (0), from);
-        //}
+        }
+        else {  // if this node takes REQUEST packet from parent node, it starts to send REQUEST packet at next time frame.
+
+        }
         return;
       }
       else if(hdr->GetCtrlPktType() == WIFI_MAC_GM_REPLY) { //GM-MAC : 'WIFI_MAC_GM_REPLY' : reply format

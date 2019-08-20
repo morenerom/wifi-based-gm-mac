@@ -35,6 +35,9 @@
 #include "block-ack-type.h"
 #include "wifi-mpdu-type.h"
 #include "ns3/adhoc-wifi-mac.h"
+#include "wifi-phy-state.h"
+#include "ns3/wifi-radio-energy-model-helper.h"
+#include "ns3/energy-module.h"
 
 class TwoLevelAggregationTest;
 class AmpduAggregationTest;
@@ -69,9 +72,12 @@ public:
   typedef Callback<void, Ptr<Packet>, const WifiMacHeader*> MacLowRxCallback;
   typedef Callback<void, StateType> StateCallback;
   typedef Callback<void, Ptr<const Packet>, Mac48Address> EnqueueCallback;
+  typedef Callback<void> TACallback;
 
   MacLow ();
   virtual ~MacLow ();
+
+  void Sleep(void);
 
   /**
    * Register this type.
@@ -274,6 +280,8 @@ public:
   void SetStateCallback (Callback<void, StateType> callback);
 
   void SetEnqueueCallback (Callback<void, Ptr<const Packet>, Mac48Address> callback);
+
+  void CancelTACallback (Callback<void> callback);
   /**
    * \param dcf listen to NAV events for every incoming and outgoing packet.
    */
@@ -459,7 +467,6 @@ public:
 
 
 private:
-  void Sleep(void);
   /**
    * Cancel all scheduled events. Called before beginning a transmission
    * or switching channel.
@@ -872,6 +879,7 @@ private:
   MacLowRxCallback m_rxCallback; //!< Callback to pass packet up
   StateCallback m_stateCallback;
   EnqueueCallback m_enqueueCallback;
+  TACallback m_cancelTACallback;
 
   EventId m_TAId;
   uint16_t m_ctsTimeoutCount;

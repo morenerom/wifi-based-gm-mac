@@ -54,10 +54,14 @@ public:
   AdhocWifiMac ();
   virtual ~AdhocWifiMac ();
 
+  void Sleep(void);
+
+  void CancelTA (void);
+
   int8_t GetGroupNumber (void);
   void SetGroupNumber(int8_t groupNumber);
 
-
+  void StartRequest(void);
 
   StateType GetStateType (void);
   void SetStateType (StateType stateType);
@@ -92,6 +96,7 @@ private:
   void Receive (Ptr<Packet> packet, const WifiMacHeader *hdr);
   StateType m_stateType;
   EventId m_activeId;
+  EventId m_TAId;
   vector<pair<Mac48Address,int16_t> > m_receivedInfo;
 };
 

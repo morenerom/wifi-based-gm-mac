@@ -87,11 +87,11 @@ using namespace ns3;
 NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhoc");
 
 #define numNodes 50
-#define genDataDuration 5   // Seconds
+#define genDataDuration 300   // Seconds
 #define stopTime 600   // Seconds
 #define frameSize 610 // T-MAC frame size (ms)
 #define TA 15 // T-MAC TA (ms)
-#define energyTrackingTime 30 // Energy Tracking per time (sec)
+#define energyTrackingTime 5 // Energy Tracking per time (sec)
 
 Ptr<Socket> recvSink[numNodes];
 Ptr<Socket> source[numNodes];
@@ -189,7 +189,7 @@ void EnergyTracking (void) {
   }
   fout << '\n';
   fout.close();
-  Simulator::Schedule(Seconds(energyTrackingTime), &EnergyTracking);
+  Simulator::Schedule(Minutes(energyTrackingTime), &EnergyTracking);
 }
 
 int main (int argc, char *argv[])
@@ -282,15 +282,15 @@ int main (int argc, char *argv[])
 //GM-MAC : add mobility to sensor
   MobilityHelper sensorMobility;
   sensorMobility.SetPositionAllocator ("ns3::RandomDiscPositionAllocator",
-                                 "X", StringValue ("5000.0"),
-                                 "Y", StringValue ("5000.0"),
-                                 "Rho", StringValue ("ns3::UniformRandomVariable[Min=0|Max=3000]"));//GM-MAC : random position allocator, standard is (5000,5000)
+                                 "X", StringValue ("2500.0"),
+                                 "Y", StringValue ("2500.0"),
+                                 "Rho", StringValue ("ns3::UniformRandomVariable[Min=0|Max=1000]"));//GM-MAC : random position allocator, standard is (5000,5000)
 
   sensorMobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
                              "Mode", StringValue ("Time"),
-                             "Time", StringValue ("1s"),
-                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=1.0]"),
-                             "Bounds", StringValue ("0|10000|0|10000"));
+                             "Time", StringValue ("10s"),
+                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=10.0]"),
+                             "Bounds", StringValue ("0|5000|0|5000"));
   for(int i=1;i<numNodes;i++) {
     sensorMobility.Install(c.Get(i));
   }
@@ -347,7 +347,7 @@ int main (int argc, char *argv[])
   for(int i=0;i<numNodes;i++) {
     basicSourcePtr.push_back(DynamicCast<BasicEnergySource> (sources.Get (i)));
   }
-  Simulator::Schedule(Seconds(energyTrackingTime), &EnergyTracking);
+  Simulator::Schedule(Minutes(energyTrackingTime), &EnergyTracking);
 
   //basicSourcePtr0->TraceConnectWithoutContext ("RemainingEnergy", MakeBoundCallback (&RemainingEnergy, c.Get(0)));
   // device energy model
