@@ -467,6 +467,7 @@ public:
 
 
 private:
+  WifiMacGmType m_receivedGmType;
   /**
    * Cancel all scheduled events. Called before beginning a transmission
    * or switching channel.

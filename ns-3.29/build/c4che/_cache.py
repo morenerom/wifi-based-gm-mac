@@ -17,8 +17,8 @@ CC_SRC_F = []
 CC_TGT_F = ['-c', '-o']
 CC_VERSION = ('7', '4', '0')
 CFLAGS_MACBUNDLE = ['-fPIC']
-CFLAGS_PYEMBED = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-3hk45v/python2.7-2.7.15~rc1=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
-CFLAGS_PYEXT = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-3hk45v/python2.7-2.7.15~rc1=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
+CFLAGS_PYEMBED = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
+CFLAGS_PYEXT = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
 CFLAGS_cshlib = ['-fPIC']
 COMPILER_CC = 'gcc'
 COMPILER_CXX = 'g++'
@@ -28,8 +28,8 @@ CXXDEFINES = ['_DEBUG']
 CXXFLAGS = ['-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fstrict-aliasing', '-Wstrict-aliasing']
 CXXFLAGS_MACBUNDLE = ['-fPIC']
 CXXFLAGS_PTHREAD = '-pthread'
-CXXFLAGS_PYEMBED = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-3hk45v/python2.7-2.7.15~rc1=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
-CXXFLAGS_PYEXT = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-3hk45v/python2.7-2.7.15~rc1=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-fvisibility=hidden', '-Wno-array-bounds']
+CXXFLAGS_PYEMBED = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2']
+CXXFLAGS_PYEXT = ['-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-fvisibility=hidden', '-Wno-array-bounds']
 CXXFLAGS_cxxshlib = ['-fPIC']
 CXXLNK_SRC_F = []
 CXXLNK_TGT_F = ['-o']

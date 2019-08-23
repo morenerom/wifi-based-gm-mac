@@ -57,6 +57,7 @@ WifiMacHeader::WifiMacHeader ()
     m_ctrlOrder (0),
     m_amsduPresent (0)
 {
+  m_ctrlPktType = 0;
 }
 
 WifiMacHeader::~WifiMacHeader ()
@@ -94,16 +95,16 @@ WifiMacGmType WifiMacHeader::GetCtrlPktType (void) const {
 void WifiMacHeader::SetCtrlPktType (WifiMacGmType type) {
   switch (type) {
     case WIFI_MAC_GM_INIT:
-      m_ctrlPktType = WIFI_MAC_GM_INIT;
+      m_ctrlPktType = 0;
       break;
     case WIFI_MAC_GM_DATA:
-      m_ctrlPktType = WIFI_MAC_GM_DATA;
+      m_ctrlPktType = 1;
       break;
     case WIFI_MAC_GM_REQUEST:
-      m_ctrlPktType = WIFI_MAC_GM_REQUEST;
+      m_ctrlPktType = 2;
       break;
     case WIFI_MAC_GM_REPLY:
-      m_ctrlPktType = WIFI_MAC_GM_REPLY;
+      m_ctrlPktType = 3;
       break;
   }
 }
@@ -142,12 +143,12 @@ void WifiMacHeader::SetTA (uint8_t TA) {
 bool
 WifiMacHeader::IsGmInit (void) const
 {
-  return (m_ctrlPktType == WIFI_MAC_GM_INIT);
+  return (m_ctrlPktType == 0);
 }
 bool
 WifiMacHeader::IsGmData (void) const
 {
-  return (m_ctrlPktType == WIFI_MAC_GM_DATA);
+  return (m_ctrlPktType == 1);
 }
 
 uint32_t
@@ -988,8 +989,11 @@ WifiMacHeader::GetSize (void) const
           size = 2 + 2 + 6 + 6;
           break;
         case SUBTYPE_CTL_CTS:
+          size = 2 + 2 + 6;
+          break;
         case SUBTYPE_CTL_ACK: 
           size = 2 + 2 + 6;
+          size += 1;    // GM-MAC GmControl field size (bytes)
           break;
         case SUBTYPE_CTL_CTLWRAPPER:
           size = 2 + 2 + 6 + 2 + 4;
@@ -1218,7 +1222,11 @@ WifiMacHeader::Serialize (Buffer::Iterator i) const
           WriteTo (i, m_addr2);
           break;
         case SUBTYPE_CTL_CTS:
+          break;
         case SUBTYPE_CTL_ACK:
+          // Gm Control serialize
+          //i.WriteHtolsbU32 (GetGmControl());//GM-MAC : GM control field is added.
+          i.WriteU8(m_ctrlPktType);
           break;
         default:
           //NOTREACHED
@@ -1240,7 +1248,7 @@ WifiMacHeader::Serialize (Buffer::Iterator i) const
             i.WriteHtolsbU16 (GetQosControl ());
           }
           // Gm Control serialize
-          i.WriteHtolsbU32 (GetGmControl());//GM-MAC : GM controlllll field is added.
+          i.WriteHtolsbU32 (GetGmControl());//GM-MAC : GM control field is added.
       } break;
     default:
       //NOTREACHED
@@ -1275,7 +1283,10 @@ WifiMacHeader::Deserialize (Buffer::Iterator start)
           ReadFrom (i, m_addr2);
           break;
         case SUBTYPE_CTL_CTS:
+          break;
         case SUBTYPE_CTL_ACK:
+          // Gm Control Deserialize
+          m_ctrlPktType = i.ReadU8();
           break;
         }
       break;

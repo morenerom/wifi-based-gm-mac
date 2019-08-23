@@ -104,7 +104,8 @@ AdhocWifiMac::SetAddress (Mac48Address address)
 // GM-MAC
 void AdhocWifiMac::DataTransmission(void) {
   Ptr<Node> node = m_stationManager->GetNode();
-  NS_LOG_UNCOND("DataTransmission " << Simulator::Now() << " " << m_low->GetAddress() << " -> " << node->GetParentMacAddress() << " : " << node->GetDataAmount()); 
+  if((node->GetId()+1 == 3) || (node->GetId()+1 == 23))
+    NS_LOG_UNCOND("DataTransmission " << Simulator::Now() << " " << m_low->GetAddress() << " -> " << node->GetParentMacAddress() << " : " << node->GetDataAmount()); 
   GmDataHeader h;
   Ptr<Packet> p = Create<Packet> (0);
   vector<Data*> curNodeBuffer = node->GetDataBuffer();
@@ -115,8 +116,6 @@ void AdhocWifiMac::DataTransmission(void) {
     h.AddGenTime(curNodeBuffer[i]->GetGenTime());
     h.AddData(curNodeBuffer[i]->GetData());
   }
-  node->BufferClear();    // Transmit all data in buffer
-  node->SetDataAmount(0);
   p->AddHeader(h);
 
   Enqueue(p, node->GetParentMacAddress());
@@ -142,31 +141,22 @@ void AdhocWifiMac::ReceiveData(Ptr<Packet> p, const WifiMacHeader *hdr) {
     tmp->SetData(tmpData[i]);
     //
     if(node->GetId() == 0)    // arrival time is recorded when the data arrives at sink
-    {
       tmp->SetArrTime(Simulator::Now().GetTimeStep());
-      node->AddData(tmp);
-      node->AddDataAmount(12);
-      // If there is any requirement for saving node information, use File I/O here.
-      
-      // sink buffer clear
-      node->BufferClear();
-      return;
-    }
+
     node->AddData(tmp);
     node->AddDataAmount(12);
   }
   //NS_LOG_UNCOND("=======================" << node->GetId() << "==========================");
  
-  if(node->GetId() == 0)
+  if(node->GetId() == 0) {
     NS_LOG_UNCOND("ReceiveData " << Simulator::Now() << " from " << hdr->GetAddr2() << " " << " Sink DataAmount : " << node->GetDataAmount()); 
-  else
-    NS_LOG_UNCOND("ReceiveData " << Simulator::Now() << " from " << hdr->GetAddr2() << " " << " Node " << node->GetId()+1 << " DataAmount : " << node->GetDataAmount()); 
-  // 1. the amount of data is over buffer threshold
-  // 2. the node is sensor node, not sink
-  // 3. the state is SET
-  if(node->GetDataAmount() >= node->GetBufferThreshold() && node->GetId() != 0 && GetStateType() == SET) {
-    DataTransmission();
+    // If there is any requirement for saving node information, use File I/O here.
+      
+    // sink buffer clear
+    node->BufferClear();
   }
+  else
+    NS_LOG_UNCOND("ReceiveData " << Simulator::Now() << " from " << hdr->GetAddr2() << " " << " Node " << node->GetId()+1 << " DataAmount : " << node->GetDataAmount());
 }
 
 void AdhocWifiMac::Sleep(void) {
@@ -191,9 +181,17 @@ void AdhocWifiMac::Active(void) {
   basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.273));
 
   m_phy->ResumeFromSleep(); //GM-MAC : activing
-
+  // DataTransmission
+  // 1. the amount of data is over buffer threshold
+  // 2. the node is sensor node, not sink
+  // 3. the state is 
   if(node->GetDataAmount() >= node->GetBufferThreshold() && node->GetId() != 0 && GetStateType() == SET) {
     DataTransmission();
+  }
+  else if (GetStateType() == REQUEST) {   // If this node took REQUEST packet from parent node at last time frame, it starts to select new parent node.
+    SetStateType(REQUEST);
+    Mac48Address m("ff:ff:ff:ff:ff:ff");
+    Enqueue(Create<Packet> (0), m);
   }
 }
 // GM-MAC
@@ -206,7 +204,7 @@ void AdhocWifiMac::SelectParentNode(void) {
   int16_t min = 9999;
   int minIndex = 0;
   for(uint16_t i=0;i<m_receivedInfo.size(); i++) {
-    NS_LOG_UNCOND(Simulator::Now() << " Collected REPLY packet " << m_receivedInfo[i].first << " " << m_receivedInfo[i].second);
+    //NS_LOG_UNCOND(Simulator::Now() << " Collected REPLY packet " << m_receivedInfo[i].first << " " << m_receivedInfo[i].second);
     if(min > m_receivedInfo[i].second) {
       min = m_receivedInfo[i].second;
       minIndex = i;
@@ -339,14 +337,14 @@ AdhocWifiMac::Enqueue (Ptr<const Packet> packet, Mac48Address to)
         //NS_LOG_UNCOND (Simulator::Now() << " / from : " << m_low->GetAddress() <<" ---> to : " << to);
       }
       else if (GetStateType() == REQUEST) {
-        NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REQUEST from " << node->GetId()+1 << " to " << to);
+        NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REQUEST " << node->GetId()+1);
         hdr.SetCtrlPktType(WIFI_MAC_GM_REQUEST);
 
         void (AdhocWifiMac::*fp)(void) = &AdhocWifiMac::SelectParentNode;
         Simulator::Schedule(MilliSeconds(50), fp, this);
       }
       else if(GetStateType() == REPLY) {
-        NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REPLY from " << node->GetId() + 1 << " to " << to);
+        //NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REPLY from " << node->GetId() + 1 << " to " << to);
         SetStateType(SET);
         hdr.SetCtrlPktType(WIFI_MAC_GM_REPLY);
       }
@@ -462,18 +460,20 @@ AdhocWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
       else if(hdr->GetCtrlPktType() == WIFI_MAC_GM_REQUEST) { //GM-MAC : 'WIFI_MAC_GM_REQUEST' : request format
         //NS_LOG_UNCOND("AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST");
         if(from != node->GetParentMacAddress()) {
-          NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST::NOTPARENT");
+          //NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST::NOTPARENT");
           SetStateType(REPLY);
           Enqueue(Create<Packet> (0), from);
         }
-        else {  // if this node takes REQUEST packet from parent node, it starts to send REQUEST packet at next time frame.
-
+        else {  
+          // If this node takes REQUEST packet from its parent node,
+          // it takes a sleep mode and starts to send REQUEST packet at next time frame.
+          //NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Receive::WIFI_MAC_GM_REQUEST::FROMPARENT");
+          Sleep();
         }
         return;
       }
       else if(hdr->GetCtrlPktType() == WIFI_MAC_GM_REPLY) { //GM-MAC : 'WIFI_MAC_GM_REPLY' : reply format
         if(GetStateType() == REQUEST) {
-          NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Receive::WIFI_MAC_GM_REPLY from " << from << " to " << to);
           pair<Mac48Address,int16_t> tmp = make_pair(from, hdr->GetGroupNumber());
           m_receivedInfo.push_back(tmp);
         }

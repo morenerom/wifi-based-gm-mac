@@ -87,11 +87,11 @@ using namespace ns3;
 NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhoc");
 
 #define numNodes 50
-#define genDataDuration 300   // Seconds
+#define genDataDuration 5   // Seconds
 #define stopTime 600   // Seconds
 #define frameSize 610 // T-MAC frame size (ms)
 #define TA 15 // T-MAC TA (ms)
-#define energyTrackingTime 5 // Energy Tracking per time (sec)
+#define energyTrackingTime 5 // Energy Tracking per time (min)
 
 Ptr<Socket> recvSink[numNodes];
 Ptr<Socket> source[numNodes];
@@ -134,7 +134,7 @@ static void Initialization (Ptr<Socket> socket)
 
 //GM-MAC : 
 void SenseData (void) {
-  //NS_LOG_UNCOND(Simulator::Now());
+  NS_LOG_UNCOND(Simulator::Now() << " SenseData");
   for(int i=1;i<numNodes;i++) {   // except for sink
     Data* curData = new Data();
     curData->SetPriority (0);
@@ -273,7 +273,7 @@ int main (int argc, char *argv[])
 //GM-MAC : add mobility to sink 
   MobilityHelper sinkMobility;
   Ptr<ListPositionAllocator> sinkPositionAlloc = CreateObject<ListPositionAllocator> ();
-  sinkPositionAlloc->Add (Vector (5000.0, 5000.0, 0));
+  sinkPositionAlloc->Add (Vector (2500.0, 2500.0, 0));
   sinkMobility.SetPositionAllocator (sinkPositionAlloc);
   sinkMobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
   sinkMobility.Install (c.Get(0));//GM-MAC : if there is another sinks, install that.
@@ -288,8 +288,8 @@ int main (int argc, char *argv[])
 
   sensorMobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
                              "Mode", StringValue ("Time"),
-                             "Time", StringValue ("10s"),
-                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=10.0]"),
+                             "Time", StringValue ("5s"),
+                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=5.0]"),
                              "Bounds", StringValue ("0|5000|0|5000"));
   for(int i=1;i<numNodes;i++) {
     sensorMobility.Install(c.Get(i));

@@ -726,8 +726,6 @@ MacLow::NotifyOffNow (void)
 void
 MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool ampduSubframe)
 {
-  Ptr<Node> n = m_stationManager->GetNode();
-  //NS_LOG_UNCOND(Simulator::Now() << "MacLow::ReceiveOk" << n->GetId()+1);
   NS_LOG_FUNCTION (this << packet << rxSnr << txVector.GetMode () << txVector.GetPreambleType ());
   /* A packet is received from the PHY.
    * When we have handled this packet,
@@ -746,6 +744,11 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
 
   WifiMacHeader hdr;
   packet->RemoveHeader (hdr);
+
+  // GM-MAC
+  if((hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA) && (hdr.GetAddr1() == m_self))
+    m_receivedGmType = WIFI_MAC_GM_DATA;
+
   //NS_LOG_UNCOND("MacLow::ReceiveOk header type checking : " << hdr.GetType());
   bool isPrevNavZero = IsNavZero ();
   NS_LOG_DEBUG ("duration/id=" << hdr.GetDuration ());
@@ -789,6 +792,7 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
            && m_ctsTimeoutEvent.IsRunning ()
            && m_currentPacket != 0)
     {
+      //NS_LOG_UNCOND("MacLow::ReceiveOk::CTS");
       if (ampduSubframe)
         {
           NS_FATAL_ERROR ("Received CTS as part of an A-MPDU");
@@ -815,6 +819,7 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
            && m_normalAckTimeoutEvent.IsRunning ()
            && m_txParams.MustWaitNormalAck ())
     {
+      //NS_LOG_UNCOND("MacLow::ReceiveOk::ACK");
       NS_LOG_DEBUG ("receive ack from=" << m_currentHdr.GetAddr1 ());
       SnrTag tag;
       packet->RemovePacketTag (tag);
@@ -837,6 +842,12 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
         }
       if (gotAck)
         {
+          //GM-MAC : clear buffer when node receives ACK for WIFI_MAC_GM_DATA
+          if(hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA) {
+            //NS_LOG_UNCOND("ACK::BUFFERCLEAR " << node->GetId()+1);
+            node->BufferClear();
+            node->SetDataAmount(0);
+          }
           m_currentTxop->GotAck ();
         }
       if (m_txParams.HasNextPacket () && (!m_currentHdr.IsQosData () || m_currentTxop->GetTxopLimit ().IsZero () || m_currentTxop->HasTxop ()))
@@ -1064,6 +1075,7 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
                 }
               else
                 {
+                  //NS_LOG_UNCOND("MacLow::ReceiveOk::DATA");
                   NS_LOG_DEBUG ("rx unicast/sendAck from=" << hdr.GetAddr2 ());
                   NS_ASSERT (m_sendAckEvent.IsExpired ());
                   m_sendAckEvent = Simulator::Schedule (GetSifs (),
@@ -1399,6 +1411,7 @@ MacLow::NotifyCtsTimeoutResetNow ()
 void
 MacLow::ForwardDown (Ptr<const Packet> packet, const WifiMacHeader* hdr, WifiTxVector txVector)
 {
+  //NS_LOG_UNCOND("MacLow::ForwardDown " << hdr->GetCtrlPktType());
   //NS_LOG_UNCOND("ForwardDown");
   NS_LOG_FUNCTION (this << packet << hdr << txVector);
   NS_LOG_DEBUG ("send " << hdr->GetTypeString () <<
@@ -1442,13 +1455,6 @@ MacLow::ForwardDown (Ptr<const Packet> packet, const WifiMacHeader* hdr, WifiTxV
         {
           m_cfAckInfo.expectCfAck = true;
         }
-      //NS_LOG_UNCOND("MacLow::ForwardDown header type checking : " << hdr->GetType());
-      /*
-      WifiMacHeader tmp;
-      packet->RemoveHeader(tmp);
-      NS_LOG_UNCOND("MacLow::ForwardDown header type checking : " << tmp.GetType());
-      packet->AddHeader(tmp);
-      */
       m_phy->SendPacket (packet, txVector);
     }
   else
@@ -1601,6 +1607,7 @@ MacLow::CtsTimeout (void)
 void
 MacLow::NormalAckTimeout (void)
 {
+  //NS_LOG_UNCOND(Simulator::Now() << " MacLow::NormalAckTimeout");
   NS_LOG_FUNCTION (this);
   NS_LOG_DEBUG ("normal ack timeout");
   /// \todo should check that there was no rx start before now.
@@ -1778,7 +1785,7 @@ MacLow::SendDataPacket (void)
           WifiTxVector blockAckReqTxVector = GetBlockAckTxVector (m_currentHdr.GetAddr2 (), m_currentTxVector.GetMode ());
           duration += GetBlockAckDuration (blockAckReqTxVector, COMPRESSED_BLOCK_ACK);
         }
-      else if (m_txParams.MustWaitNormalAck ()) // REPLY packet
+      else if (m_txParams.MustWaitNormalAck ()) // ACK for REPLY packet
         {
           //if(m_currentHdr.GetCtrlPktType() == WIFI_MAC_GM_REPLY)
           //  NS_LOG_UNCOND("MustWaitNormalAck");
@@ -1983,6 +1990,7 @@ MacLow::SendCtsAfterRts (Mac48Address source, Time duration, WifiTxVector rtsTxV
 void
 MacLow::SendDataAfterCts (Time duration)
 {
+  //NS_LOG_UNCOND(Simulator::Now() << " MacLow::SendDataAFterCts");
   NS_LOG_FUNCTION (this);
   /* send the third step in a
    * RTS/CTS/DATA/ACK handshake
@@ -2115,6 +2123,13 @@ MacLow::SendAckAfterData (Mac48Address source, Time duration, WifiMode dataTxMod
   ack.SetNoRetry ();
   ack.SetNoMoreFragments ();
   ack.SetAddr1 (source);
+
+  if(m_receivedGmType == WIFI_MAC_GM_DATA)
+  {
+    ack.SetCtrlPktType(m_receivedGmType);
+    m_receivedGmType = WIFI_MAC_GM_INIT; 
+  }
+
   // 802.11-2012, Section 8.3.1.4:  Duration/ID is received duration value
   // minus the time to transmit the ACK frame and its SIFS interval
   duration -= GetAckDuration (ackTxVector);
@@ -2124,6 +2139,13 @@ MacLow::SendAckAfterData (Mac48Address source, Time duration, WifiMode dataTxMod
 
   Ptr<Packet> packet = Create<Packet> ();
   packet->AddHeader (ack);
+/* GM-MAC test
+  WifiMacHeader tmp;
+  packet->RemoveHeader(tmp);
+  NS_LOG_UNCOND(ack.GetType() << " " << ack.GetAddr1() << " " << ack.GetCtrlPktType());
+  NS_LOG_UNCOND(tmp.GetType() << " " << tmp.GetAddr1() << " " << tmp.GetCtrlPktType());
+  packet->AddHeader(tmp);
+*/
   AddWifiMacTrailer (packet);
 
   SnrTag tag;
