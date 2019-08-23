@@ -34,3 +34,14 @@ Version 1.0
 * etc
 - wifi-helper
 --------------------------------------------------
+Version 1.1
+* Sending data when the time frame starts ONCE
+- adhoc-wifi-mac
+
+* Clearing buffer when sender receives ACK packet for data
+- mac-low
+- wifi-mac-header
+
+* If sensor node receives REQUEST packet from its parent node,
+  it takes a sleep mode and starts to send REQUEST packet at the begin of next time frame
+- adhoc-wifi-mac
