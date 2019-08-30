@@ -181,10 +181,7 @@ BasicEnergySource::UpdateEnergySource (void)
     {
       NotifyEnergyChanged ();
     }
-
-  m_energyUpdateEvent = Simulator::Schedule (m_energyUpdateInterval,
-                                             &BasicEnergySource::UpdateEnergySource,
-                                             this);
+  //m_energyUpdateEvent = Simulator::Schedule (m_energyUpdateInterval, &BasicEnergySource::UpdateEnergySource, this);// GM-MAC
 }
 
 /*

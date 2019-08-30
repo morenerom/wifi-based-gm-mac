@@ -114,9 +114,11 @@ WifiRadioEnergyModel::SetEnergySource (const Ptr<EnergySource> source)
   NS_LOG_FUNCTION (this << source);
   NS_ASSERT (source != NULL);
   m_source = source;
+  /*
   m_switchToOffEvent.Cancel ();
   Time durationToOff = GetMaximumTimeInState (m_currentState);
   m_switchToOffEvent = Simulator::Schedule (durationToOff, &WifiRadioEnergyModel::ChangeState, this, WifiPhyState::OFF);
+  */
 }
 
 double
@@ -338,14 +340,14 @@ WifiRadioEnergyModel::ChangeState (int newState)
       m_nPendingChangeState--;
       return;
     }
-
+/*
   if (newState != WifiPhyState::OFF)
     {
       m_switchToOffEvent.Cancel ();
       Time durationToOff = GetMaximumTimeInState (newState);
-      m_switchToOffEvent = Simulator::Schedule (durationToOff, &WifiRadioEnergyModel::ChangeState, this, WifiPhyState::OFF);
+      m_switchToOffEvent = Simulator::Schedule (durationToOff, &WifiRadioEnergyModel::ChangeState, this, WifiPhyState::OFF);// GM-MAC
     }
-
+*/
   Time duration = Simulator::Now () - m_lastUpdateTime;
   NS_ASSERT (duration.IsPositive ()); // check if duration is valid
 
@@ -438,12 +440,14 @@ WifiRadioEnergyModel::HandleEnergyChanged (void)
 {
   NS_LOG_FUNCTION (this);
   NS_LOG_DEBUG ("WifiRadioEnergyModel:Energy is changed!");
+  /*
   if (m_currentState != WifiPhyState::OFF)
     {
       m_switchToOffEvent.Cancel ();
-      Time durationToOff = GetMaximumTimeInState (m_currentState);
-      m_switchToOffEvent = Simulator::Schedule (durationToOff, &WifiRadioEnergyModel::ChangeState, this, WifiPhyState::OFF);
+      Time durationToOff = GetMaximumTimeInState (m_currentState);// GM-MAC
+      m_switchToOffEvent = Simulator::Schedule (durationToOff, &WifiRadioEnergyModel::ChangeState, this, WifiPhyState::OFF);// GM-MAC
     }
+    */
 }
 
 WifiRadioEnergyModelPhyListener *

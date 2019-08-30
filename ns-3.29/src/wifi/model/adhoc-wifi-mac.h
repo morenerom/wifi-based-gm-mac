@@ -98,6 +98,8 @@ private:
   EventId m_activeId;
   EventId m_TAId;
   vector<pair<Mac48Address,int16_t> > m_receivedInfo;
+  uint16_t m_requestFailCount;
+  uint16_t m_activeNum;
 };
 
 } //namespace ns3

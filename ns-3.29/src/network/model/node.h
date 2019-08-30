@@ -88,6 +88,7 @@ public:
   void AddDataAmount (double dataAmount);
   void SetDataAmount (double dataAmount);
   double GetDataAmount (void) const;
+  uint64_t GetTotalDataAmount (void) const;
 
   void SetGroupNumber(int16_t groupNumber);
   uint16_t GetGroupNumber (void) const;
@@ -331,6 +332,7 @@ private:
   ProtocolHandlerList m_handlers; //!< Protocol handlers in the node
   DeviceAdditionListenerList m_deviceAdditionListeners; //!< Device addition listeners in the node
 
+  //GM-MAC
   int16_t    m_groupNumber;
   vector<Data*> m_dataBuffer;
   double m_dataAmount;
@@ -341,9 +343,12 @@ private:
   NodeType m_nodeType;
   NodeState m_nodeState;    // for setting parentIpv4Address
 
-  // for Sink
+  // GM-MAC : for Sink
   uint16_t m_frameSize;
   uint8_t m_TA;
+
+  // GM-MAC
+  uint64_t m_totalDataAmount;
 };
 
 } // namespace ns3

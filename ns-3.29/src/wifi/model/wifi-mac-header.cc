@@ -982,6 +982,9 @@ WifiMacHeader::GetSize (void) const
       switch (m_ctrlSubtype)
         {
         case SUBTYPE_CTL_RTS:
+          size = 2 + 2 + 6 + 6;
+          size += 1;
+          break;
         case SUBTYPE_CTL_BACKREQ:
         case SUBTYPE_CTL_BACKRESP:
         case SUBTYPE_CTL_END:
@@ -1215,6 +1218,9 @@ WifiMacHeader::Serialize (Buffer::Iterator i) const
       switch (m_ctrlSubtype)
         {
         case SUBTYPE_CTL_RTS:
+          WriteTo (i, m_addr2);
+          i.WriteU8(m_groupNumber);
+          break;
         case SUBTYPE_CTL_BACKREQ:
         case SUBTYPE_CTL_BACKRESP:
         case SUBTYPE_CTL_END:
@@ -1276,6 +1282,9 @@ WifiMacHeader::Deserialize (Buffer::Iterator start)
       switch (m_ctrlSubtype)
         {
         case SUBTYPE_CTL_RTS:
+          ReadFrom (i, m_addr2);
+          m_groupNumber = i.ReadU8();
+          break;
         case SUBTYPE_CTL_BACKREQ:
         case SUBTYPE_CTL_BACKRESP:
         case SUBTYPE_CTL_END:

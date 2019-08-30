@@ -1,6 +1,6 @@
-# project ns (3.29) configured on Thu Aug 22 16:06:59 2019 by
+# project ns (3.29) configured on Fri Aug 23 18:21:05 2019 by
 # waf 2.0.9 (abi 20, python 2070ff0 on linux2)
-# using ./waf configure --build-profile=debug --enable-examples --enable-tests
+# using ./waf -d optimized --enable-examples --enable-tests configure
 #
 ----------------------------------------
 Setting top to
@@ -719,23 +719,32 @@ out: #define __SSP_STRONG__ 3
 
 find program=['ar'] paths=['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin', '/usr/games', '/usr/local/games', '/snap/bin'] var='AR' -> ['/usr/bin/ar']
 /usr/bin/g++
+---------------------------------------------------
+Checking for compilation flag -march=native support
+==>
+int main() { return 0; }
+<==
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
+
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
+ok
 ------------------------------------------------------
 Checking for compilation flag -Wl,--soname=foo support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-Wl,--soname=foo', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-Wl,--soname=foo', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------
 Checking for compilation flag -std=c++11 support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------
 Checking for program 'python'
@@ -843,12 +852,12 @@ int main(int argc, char **argv)
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_052661d3502ec87eabddaac71b9b360d/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_071a639d095bb01e48f583a8b5954f6b/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-I/usr/include/python2.7', '-I/usr/include/x86_64-linux-gnu/python2.7', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-D_FORTIFY_SOURCE=2', '-DNDEBUG', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_052661d3502ec87eabddaac71b9b360d/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_052661d3502ec87eabddaac71b9b360d/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-I/usr/include/python2.7', '-I/usr/include/x86_64-linux-gnu/python2.7', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-D_FORTIFY_SOURCE=2', '-DNDEBUG', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_071a639d095bb01e48f583a8b5954f6b/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_071a639d095bb01e48f583a8b5954f6b/testbuild/testprog[0m
 
-['/usr/bin/g++', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_052661d3502ec87eabddaac71b9b360d/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-L/usr/lib', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm']
+['/usr/bin/g++', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_071a639d095bb01e48f583a8b5954f6b/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-L/usr/lib', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm']
 yes
 ------------------------------------------------------------------
 Asking python-config for pyext '--cflags --libs --ldflags' flags
@@ -885,30 +894,30 @@ int main(int argc, char **argv)
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_7dc7f20ceefaaf9549e45f4f25b56b9e/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_9882d17427e4167b4fc4cefbc8086e14/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fPIC', '-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-I/usr/include/python2.7', '-I/usr/include/x86_64-linux-gnu/python2.7', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-D_FORTIFY_SOURCE=2', '-DNDEBUG', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_7dc7f20ceefaaf9549e45f4f25b56b9e/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_7dc7f20ceefaaf9549e45f4f25b56b9e/testbuild/testprog.so[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-fPIC', '-fno-strict-aliasing', '-g', '-fdebug-prefix-map=/build/python2.7-MW0004/python2.7-2.7.15=.', '-fstack-protector-strong', '-g', '-fwrapv', '-O2', '-I/usr/include/python2.7', '-I/usr/include/x86_64-linux-gnu/python2.7', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-D_FORTIFY_SOURCE=2', '-DNDEBUG', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_9882d17427e4167b4fc4cefbc8086e14/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_9882d17427e4167b4fc4cefbc8086e14/testbuild/testprog.so[0m
 
-['/usr/bin/g++', '-shared', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_7dc7f20ceefaaf9549e45f4f25b56b9e/testbuild/testprog.so', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-L/usr/lib', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm']
+['/usr/bin/g++', '-shared', '-Xlinker', '-export-dynamic', '-Wl,-O1', '-Wl,-Bsymbolic-functions', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_9882d17427e4167b4fc4cefbc8086e14/testbuild/testprog.so', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-L/usr/lib/python2.7/config-x86_64-linux-gnu', '-L/usr/lib', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm', '-lpython2.7', '-lpthread', '-ldl', '-lutil', '-lm']
 yes
 ------------------------------------------------------------------
 Checking for compilation flag -fvisibility=hidden support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fvisibility=hidden', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-fvisibility=hidden', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------------------
 Checking for compilation flag -Wno-array-bounds support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-Wno-array-bounds', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-Wno-array-bounds', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------------------
 Checking for pybindgen location
@@ -936,9 +945,9 @@ int main ()
 }
 
 <==
-[1/1] Compiling [32mbuild/.conf_check_83b1d802d5133237ada474e2e60c97cd/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_c15e0c3af3edcfa1b060f9c3621d1dbe/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_83b1d802d5133237ada474e2e60c97cd/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_c15e0c3af3edcfa1b060f9c3621d1dbe/testbuild/test.cpp.1.o']
 yes
 ------------------------------------------------------------------
 Checking for types uint64_t and unsigned long equivalence
@@ -957,9 +966,9 @@ int main ()
 }
 
 <==
-[1/1] Compiling [32mbuild/.conf_check_b51f248e08c9d42666ed15d9dc4cf6ef/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_cc06bb0ed8eabe2b05223f2ce88257b8/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b51f248e08c9d42666ed15d9dc4cf6ef/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_cc06bb0ed8eabe2b05223f2ce88257b8/testbuild/test.cpp.1.o']
 err: ../test.cpp: In function ‘int main()’:
 ../test.cpp:7:37: error: conversion from ‘std::vector<long long unsigned int>’ to non-scalar type ‘std::vector<long unsigned int>’ requested
     std::vector< uint64_t > t = std::vector< unsigned long long > ();
@@ -993,12 +1002,12 @@ int main ()
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_d375e66da572fa6bee1514ed8f7b5eef/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_5941664c256988b6ba7df2e5626c0985/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_d375e66da572fa6bee1514ed8f7b5eef/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_d375e66da572fa6bee1514ed8f7b5eef/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_5941664c256988b6ba7df2e5626c0985/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_5941664c256988b6ba7df2e5626c0985/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_d375e66da572fa6bee1514ed8f7b5eef/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_5941664c256988b6ba7df2e5626c0985/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 complete
 ------------------------------------------------------------------
 Checking for python module 'pygccxml'
@@ -1052,12 +1061,12 @@ Checking for boost linkage
 int main() { boost::system::error_code c; }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_d188336bee6538e3c63f1790c41a7a87/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_7133976bd0bac8a45aede972655e82a3/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-I/usr/include', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_d188336bee6538e3c63f1790c41a7a87/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_d188336bee6538e3c63f1790c41a7a87/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-I/usr/include', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DPYTHONDIR="/usr/local/lib/python2.7/dist-packages"', '-DPYTHONARCHDIR="/usr/local/lib/python2.7/dist-packages"', '-DHAVE_PYEMBED=1', '-DHAVE_PYEXT=1', '-DHAVE_PYTHON_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_7133976bd0bac8a45aede972655e82a3/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_7133976bd0bac8a45aede972655e82a3/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_d188336bee6538e3c63f1790c41a7a87/testbuild/testprog', '-Wl,-Bstatic', '-L/usr/lib/x86_64-linux-gnu', '-Wl,-Bdynamic', '-L/usr/lib/x86_64-linux-gnu', '-lboost_system', '-lboost_signals', '-lboost_filesystem']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_7133976bd0bac8a45aede972655e82a3/testbuild/testprog', '-Wl,-Bstatic', '-L/usr/lib/x86_64-linux-gnu', '-Wl,-Bdynamic', '-L/usr/lib/x86_64-linux-gnu', '-lboost_system', '-lboost_signals', '-lboost_filesystem']
 ok
 ------------------------------------------------------------------
 Checking for click location
@@ -1086,9 +1095,9 @@ checking for uint128_t
         }
         
 <==
-[1/2] Compiling [32mbuild/.conf_check_0870108f5255e2ff6df0a0cd112b2e58/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_71eef1144836c7b52060f2cebaee1a9c/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_0870108f5255e2ff6df0a0cd112b2e58/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_71eef1144836c7b52060f2cebaee1a9c/testbuild/test.cpp.1.o']
 err: ../test.cpp: In function ‘int main(int, char**)’:
 ../test.cpp:6:7: error: ‘uint128_t’ was not declared in this scope
   if ((uint128_t *) 0) return 0;
@@ -1135,12 +1144,12 @@ checking for __uint128_t
         }
         
 <==
-[1/2] Compiling [32mbuild/.conf_check_fb8fb9c830c2d8ac54d1d6eabed388fc/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_e4fcc58dd8e98f845a75a17666692a74/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_fb8fb9c830c2d8ac54d1d6eabed388fc/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_fb8fb9c830c2d8ac54d1d6eabed388fc/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e4fcc58dd8e98f845a75a17666692a74/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_e4fcc58dd8e98f845a75a17666692a74/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_fb8fb9c830c2d8ac54d1d6eabed388fc/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e4fcc58dd8e98f845a75a17666692a74/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking high precision implementation
@@ -1156,12 +1165,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_06aed7e7102b0b91e6711b1bda591336/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_e34343fd50fb13fb059e06110f196a24/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header inttypes.h
@@ -1174,12 +1183,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_b0293346d0d09a6d4418b897770f94b8/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header sys/inttypes.h
@@ -1192,9 +1201,9 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_e422c7f6dd9c93321baed3b2b2b563e5/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_6e4fc3c280b838f1ee54550598c95168/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e422c7f6dd9c93321baed3b2b2b563e5/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_6e4fc3c280b838f1ee54550598c95168/testbuild/test.cpp.1.o']
 err: ../test.cpp:1:10: fatal error: sys/inttypes.h: 그런 파일이나 디렉터리가 없습니다
  #include <sys/inttypes.h>
           ^~~~~~~~~~~~~~~~
@@ -1221,12 +1230,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_caef8d3964f3c956e030261b99442314/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_3f37921a1d15a1d51e0551abee35a449/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_caef8d3964f3c956e030261b99442314/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_caef8d3964f3c956e030261b99442314/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3f37921a1d15a1d51e0551abee35a449/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_3f37921a1d15a1d51e0551abee35a449/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_caef8d3964f3c956e030261b99442314/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3f37921a1d15a1d51e0551abee35a449/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header sys/stat.h
@@ -1239,12 +1248,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_b768caea48971e3132223d200dd58145/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_5c89bba865b53a7bd8250d1f07891d84/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b768caea48971e3132223d200dd58145/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_b768caea48971e3132223d200dd58145/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_5c89bba865b53a7bd8250d1f07891d84/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_5c89bba865b53a7bd8250d1f07891d84/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b768caea48971e3132223d200dd58145/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_5c89bba865b53a7bd8250d1f07891d84/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header dirent.h
@@ -1257,12 +1266,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_a0b80a1a8946f409af5c9ec3ce833dc2/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_db2fddd1a59d64bcbe051fc2885ed0f0/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a0b80a1a8946f409af5c9ec3ce833dc2/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_a0b80a1a8946f409af5c9ec3ce833dc2/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_db2fddd1a59d64bcbe051fc2885ed0f0/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_db2fddd1a59d64bcbe051fc2885ed0f0/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a0b80a1a8946f409af5c9ec3ce833dc2/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_db2fddd1a59d64bcbe051fc2885ed0f0/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header stdlib.h
@@ -1275,12 +1284,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_ef5d742b94f64c1ca2c15e9dda6eec79/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_3b01a764633efa3c28ca9484a770b363/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_ef5d742b94f64c1ca2c15e9dda6eec79/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_ef5d742b94f64c1ca2c15e9dda6eec79/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3b01a764633efa3c28ca9484a770b363/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_3b01a764633efa3c28ca9484a770b363/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_ef5d742b94f64c1ca2c15e9dda6eec79/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3b01a764633efa3c28ca9484a770b363/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header signal.h
@@ -1293,12 +1302,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_6244ab25c078da8a760fff93813f96fe/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_da980a01845d4a1c55b637cad3ba3cb9/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_6244ab25c078da8a760fff93813f96fe/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_6244ab25c078da8a760fff93813f96fe/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_da980a01845d4a1c55b637cad3ba3cb9/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_da980a01845d4a1c55b637cad3ba3cb9/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_6244ab25c078da8a760fff93813f96fe/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_da980a01845d4a1c55b637cad3ba3cb9/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header pthread.h
@@ -1313,12 +1322,12 @@ int main ()
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_0022ec5334cf86e1c74531bac7e51366/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_b6bdedafde76c0da614fdf7e8ff99444/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-pthread', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_0022ec5334cf86e1c74531bac7e51366/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_0022ec5334cf86e1c74531bac7e51366/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-pthread', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b6bdedafde76c0da614fdf7e8ff99444/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_b6bdedafde76c0da614fdf7e8ff99444/testbuild/testprog[0m
 
-['/usr/bin/g++', '-pthread', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_0022ec5334cf86e1c74531bac7e51366/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', '-pthread', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b6bdedafde76c0da614fdf7e8ff99444/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header stdint.h
@@ -1331,12 +1340,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_06aed7e7102b0b91e6711b1bda591336/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_e34343fd50fb13fb059e06110f196a24/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_INTTYPES_H=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_06aed7e7102b0b91e6711b1bda591336/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e34343fd50fb13fb059e06110f196a24/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header inttypes.h
@@ -1349,12 +1358,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_b0293346d0d09a6d4418b897770f94b8/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_b0293346d0d09a6d4418b897770f94b8/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_82d5e02e3456b73f9be63ded395fc3cb/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header sys/inttypes.h
@@ -1367,9 +1376,9 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_e422c7f6dd9c93321baed3b2b2b563e5/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_6e4fc3c280b838f1ee54550598c95168/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_e422c7f6dd9c93321baed3b2b2b563e5/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_6e4fc3c280b838f1ee54550598c95168/testbuild/test.cpp.1.o']
 err: ../test.cpp:1:10: fatal error: sys/inttypes.h: 그런 파일이나 디렉터리가 없습니다
  #include <sys/inttypes.h>
           ^~~~~~~~~~~~~~~~
@@ -1395,12 +1404,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_252be1077d3c2004d7e7aca335a5ff2f/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_3d7c2e2b004879ee17f5bd92acc35b5a/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-pthread', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_252be1077d3c2004d7e7aca335a5ff2f/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_252be1077d3c2004d7e7aca335a5ff2f/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-pthread', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE___UINT128_T=1', '-DINT64X64_USE_128=1', '-DHAVE_SYS_TYPES_H=1', '-DHAVE_SYS_STAT_H=1', '-DHAVE_DIRENT_H=1', '-DHAVE_STDLIB_H=1', '-DHAVE_GETENV=1', '-DHAVE_SIGNAL_H=1', '-DHAVE_PTHREAD_H=1', '-DHAVE_STDINT_H=1', '-DHAVE_INTTYPES_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3d7c2e2b004879ee17f5bd92acc35b5a/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_3d7c2e2b004879ee17f5bd92acc35b5a/testbuild/testprog[0m
 
-['/usr/bin/g++', '-pthread', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_252be1077d3c2004d7e7aca335a5ff2f/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-lrt']
+['/usr/bin/g++', '-pthread', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_3d7c2e2b004879ee17f5bd92acc35b5a/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic', '-lrt']
 yes
 ------------------------------------------------------------------
 Checking for header sys/ioctl.h
@@ -1413,12 +1422,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_0a3099a5a79c2aed492152949fed4ac0/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_21f58067d016533589fd8dc97f2dbaac/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_0a3099a5a79c2aed492152949fed4ac0/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_0a3099a5a79c2aed492152949fed4ac0/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_21f58067d016533589fd8dc97f2dbaac/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_21f58067d016533589fd8dc97f2dbaac/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_0a3099a5a79c2aed492152949fed4ac0/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_21f58067d016533589fd8dc97f2dbaac/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header net/if.h
@@ -1431,12 +1440,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_03236b8ab7421b77b93f5a12468a3bfd/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_a2238e65bf452378714e7e880760b4d0/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_03236b8ab7421b77b93f5a12468a3bfd/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_03236b8ab7421b77b93f5a12468a3bfd/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a2238e65bf452378714e7e880760b4d0/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_a2238e65bf452378714e7e880760b4d0/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_03236b8ab7421b77b93f5a12468a3bfd/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a2238e65bf452378714e7e880760b4d0/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header net/ethernet.h
@@ -1449,12 +1458,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_46754636ff8cad486d25eb4ce7116111/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_84ee532029b3d688f2ac857e87cffd02/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_46754636ff8cad486d25eb4ce7116111/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_46754636ff8cad486d25eb4ce7116111/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_84ee532029b3d688f2ac857e87cffd02/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_84ee532029b3d688f2ac857e87cffd02/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_46754636ff8cad486d25eb4ce7116111/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_84ee532029b3d688f2ac857e87cffd02/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header linux/if_tun.h
@@ -1467,12 +1476,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_31e224bbd6c2881a8f66b493386b4f84/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_1f04c3fcacc444299815904a4cc63ca3/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for header netpacket/packet.h
@@ -1485,12 +1494,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_221af1d8ccdecdd060dbbff40485a3df/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_89aa394cd58eef3ed68897a8168d2b35/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_221af1d8ccdecdd060dbbff40485a3df/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_221af1d8ccdecdd060dbbff40485a3df/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_89aa394cd58eef3ed68897a8168d2b35/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_89aa394cd58eef3ed68897a8168d2b35/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_221af1d8ccdecdd060dbbff40485a3df/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_89aa394cd58eef3ed68897a8168d2b35/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for NSC location
@@ -1514,12 +1523,12 @@ int main(int argc, char **argv) {
 }
 
 <==
-[1/2] Compiling [32mbuild/.conf_check_31e224bbd6c2881a8f66b493386b4f84/test.cpp[0m
+[1/2] Compiling [32mbuild/.conf_check_1f04c3fcacc444299815904a4cc63ca3/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/test.cpp.1.o']
-[2/2] Linking [33mbuild/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/testprog[0m
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/test.cpp.1.o']
+[2/2] Linking [33mbuild/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/testprog[0m
 
-['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_31e224bbd6c2881a8f66b493386b4f84/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
+['/usr/bin/g++', 'test.cpp.1.o', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1f04c3fcacc444299815904a4cc63ca3/testbuild/testprog', '-Wl,-Bstatic', '-Wl,-Bdynamic']
 yes
 ------------------------------------------------------------------
 Checking for python module 'gi'
@@ -1601,36 +1610,36 @@ Checking for compilation flag -fstrict-aliasing support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fstrict-aliasing', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-fstrict-aliasing', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------------------
 Checking for compilation flag -fstrict-aliasing support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_c8f4b65004237fdba70011bcb9c62c20/test.c[0m
+[1/1] Compiling [32mbuild/.conf_check_a2f1903165e197c28da0c79df48b2f17/test.c[0m
 
-['/usr/bin/gcc', '-fstrict-aliasing', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.c', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_c8f4b65004237fdba70011bcb9c62c20/testbuild/test.c.1.o']
+['/usr/bin/gcc', '-fstrict-aliasing', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.c', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a2f1903165e197c28da0c79df48b2f17/testbuild/test.c.1.o']
 ok
 ------------------------------------------------------------------
 Checking for compilation flag -Wstrict-aliasing support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_120c115b037636b4fb6399d66c399332/test.cpp[0m
+[1/1] Compiling [32mbuild/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/test.cpp[0m
 
-['/usr/bin/g++', '-O0', '-ggdb', '-g3', '-Wall', '-Werror', '-std=c++11', '-fstrict-aliasing', '-Wstrict-aliasing', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_120c115b037636b4fb6399d66c399332/testbuild/test.cpp.1.o']
+['/usr/bin/g++', '-O3', '-g', '-Wall', '-Werror', '-march=native', '-fstrict-overflow', '-Wstrict-overflow=2', '-std=c++11', '-fstrict-aliasing', '-Wstrict-aliasing', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.cpp', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_1fa86e1e5f87b2317c86f80712e8e267/testbuild/test.cpp.1.o']
 ok
 ------------------------------------------------------------------
 Checking for compilation flag -Wstrict-aliasing support
 ==>
 int main() { return 0; }
 <==
-[1/1] Compiling [32mbuild/.conf_check_c8f4b65004237fdba70011bcb9c62c20/test.c[0m
+[1/1] Compiling [32mbuild/.conf_check_a2f1903165e197c28da0c79df48b2f17/test.c[0m
 
-['/usr/bin/gcc', '-Wstrict-aliasing', '-DNS3_BUILD_PROFILE_DEBUG', '-DNS3_ASSERT_ENABLE', '-DNS3_LOG_ENABLE', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.c', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_c8f4b65004237fdba70011bcb9c62c20/testbuild/test.c.1.o']
+['/usr/bin/gcc', '-Wstrict-aliasing', '-DNS3_BUILD_PROFILE_OPTIMIZED', '-DHAVE_SYS_IOCTL_H=1', '-DHAVE_IF_NETS_H=1', '-DHAVE_NET_ETHERNET_H=1', '-DHAVE_PACKET_H=1', '-DHAVE_IF_TUN_H=1', '../test.c', '-c', '-o/home/mshan/workspace/wifi-based-gm-mac/ns-3.29/build/.conf_check_a2f1903165e197c28da0c79df48b2f17/testbuild/test.c.1.o']
 ok
 ------------------------------------------------------------------
 Checking for program 'doxygen'

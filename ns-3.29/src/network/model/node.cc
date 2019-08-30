@@ -128,6 +128,9 @@ void Node::SetDataBuffer (vector<Data*> dataBuffer) {
   m_dataBuffer = dataBuffer;
 }
 void Node::BufferClear (void) {
+  for(uint16_t i = 0; i < m_dataBuffer.size(); i++) {
+    delete m_dataBuffer[i];
+  }
   m_dataBuffer.clear();
 }
 
@@ -136,12 +139,18 @@ void Node::AddData (Data* data) {
 }
 void Node::AddDataAmount (double dataAmount) {
   m_dataAmount += dataAmount;
+  if(m_id == 0)
+    m_totalDataAmount +=  dataAmount;
 }
 void Node::SetDataAmount (double dataAmount) {
   m_dataAmount = dataAmount;
 }
 double Node::GetDataAmount (void) const {
   return m_dataAmount;
+}
+
+uint64_t Node::GetTotalDataAmount (void) const {
+  return m_totalDataAmount;
 }
 
 double Node::GetBufferThreshold (void) const {

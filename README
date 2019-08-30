@@ -45,3 +45,24 @@ Version 1.1
 * If sensor node receives REQUEST packet from its parent node,
   it takes a sleep mode and starts to send REQUEST packet at the begin of next time frame
 - adhoc-wifi-mac
+--------------------------------------------------
+Version 1.2
+* If AdhocWifiMac::GetStateType() returns REQUEST, the sensor node doesn't reply REPLY packet
+- adhoc-wifi-mac
+
+* In Energy Model, I delete periodic update code and turning state to OFF code
+- basic-energy-source
+- wifi-radio-energy-model
+
+* Periodic Resetting Group Number (every 1,000 time frame)
+- adhoc-wifi-mac
+
+* If a sensor node doesn't take any REPLY packets for REQUEST packet 4 times, it takes a sleep mode until next Periodic Resetting Group Number stage
+- adhoc-wifi-mac
+
+* Adding group number field in RTS packet. It allows the receiver to decide whether or not to reply the packet.
+- wifi-mac-header
+- mac-low
+
+* [Update] Group number resetting -> If a sensor node dosen't take any REPLY packet for REQUEST packet, it starts to send REQUEST packet immediately not to send RTS first.
+- adhoc-wifi-mac

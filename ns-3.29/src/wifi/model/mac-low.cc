@@ -143,6 +143,7 @@ void MacLow::Sleep(void) {
   Ptr<Node> n = m_stationManager->GetNode();
   //NS_LOG_UNCOND(Simulator::Now() << " " << n->GetId()+1 << " MacLow::Sleep");
   Ptr<Node> node = m_stationManager->GetNode();
+  
   Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
   Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
   Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
@@ -150,7 +151,8 @@ void MacLow::Sleep(void) {
   basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.0));
   basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.0));
   basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.0));
-
+  basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.0));
+  
   NotifySleepNow();
   m_phy->SetSleepMode();
 }
@@ -768,7 +770,8 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
       else
         {
           if (isPrevNavZero
-              && hdr.GetAddr1 () == m_self)
+              && hdr.GetAddr1 () == m_self
+              && hdr.GetGroupNumber() == (node->GetGroupNumber() + 1))
             {
               NS_LOG_DEBUG ("rx RTS from=" << hdr.GetAddr2 () << ", schedule CTS");
               NS_ASSERT (m_sendCtsEvent.IsExpired ());
@@ -1646,6 +1649,7 @@ MacLow::SendRtsForPacket (void)
   //NS_LOG_UNCOND(Simulator::Now() << " MacLow::SendRtsForPacket");
   NS_LOG_FUNCTION (this);
   /* send an RTS for this packet. */
+  Ptr<Node> node = m_stationManager->GetNode();
   WifiMacHeader rts;
   rts.SetType (WIFI_MAC_CTL_RTS);
   rts.SetDsNotFrom ();
@@ -1654,6 +1658,7 @@ MacLow::SendRtsForPacket (void)
   rts.SetNoMoreFragments ();
   rts.SetAddr1 (m_currentHdr.GetAddr1 ());
   rts.SetAddr2 (m_self);
+  rts.SetGroupNumber(node->GetGroupNumber());
   WifiTxVector rtsTxVector = GetRtsTxVector (m_currentPacket, &m_currentHdr);
   Time duration = Seconds (0);
 

@@ -11,6 +11,10 @@ Data::Data() {
 	m_data = 0;
 }
 
+Data::~Data() {
+	
+}
+
 uint64_t Data::GetGenTime (void) const {
 	return m_genTime;
 }

@@ -86,12 +86,11 @@ using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhoc");
 
-#define numNodes 50
-#define genDataDuration 5   // Seconds
-#define stopTime 600   // Seconds
+#define numNodes 30
+#define genDataDuration 1   // Data sensing every n (min)
 #define frameSize 610 // T-MAC frame size (ms)
 #define TA 15 // T-MAC TA (ms)
-#define energyTrackingTime 5 // Energy Tracking per time (min)
+#define energyTrackingTime 60 // Energy Tracking per time (min)
 
 Ptr<Socket> recvSink[numNodes];
 Ptr<Socket> source[numNodes];
@@ -134,7 +133,7 @@ static void Initialization (Ptr<Socket> socket)
 
 //GM-MAC : 
 void SenseData (void) {
-  NS_LOG_UNCOND(Simulator::Now() << " SenseData");
+  cout << Simulator::Now() << " SenseData" << '\n';
   for(int i=1;i<numNodes;i++) {   // except for sink
     Data* curData = new Data();
     curData->SetPriority (0);
@@ -149,7 +148,7 @@ void SenseData (void) {
   }
 
   //NS_LOG_UNCOND(Simulator::Now());
-  Simulator::Schedule (Seconds(genDataDuration), &SenseData);
+  Simulator::Schedule (Minutes(genDataDuration), &SenseData);
 }
 
 /*
@@ -194,6 +193,8 @@ void EnergyTracking (void) {
 
 int main (int argc, char *argv[])
 {
+  ios_base::sync_with_stdio(false);
+
   std::string phyMode ("DsssRate1Mbps");
   double Prss = -80;            // dBm
   uint32_t PpacketSize = 200;   // bytes
@@ -273,7 +274,7 @@ int main (int argc, char *argv[])
 //GM-MAC : add mobility to sink 
   MobilityHelper sinkMobility;
   Ptr<ListPositionAllocator> sinkPositionAlloc = CreateObject<ListPositionAllocator> ();
-  sinkPositionAlloc->Add (Vector (2500.0, 2500.0, 0));
+  sinkPositionAlloc->Add (Vector (1000.0, 1000.0, 0));
   sinkMobility.SetPositionAllocator (sinkPositionAlloc);
   sinkMobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
   sinkMobility.Install (c.Get(0));//GM-MAC : if there is another sinks, install that.
@@ -282,15 +283,15 @@ int main (int argc, char *argv[])
 //GM-MAC : add mobility to sensor
   MobilityHelper sensorMobility;
   sensorMobility.SetPositionAllocator ("ns3::RandomDiscPositionAllocator",
-                                 "X", StringValue ("2500.0"),
-                                 "Y", StringValue ("2500.0"),
+                                 "X", StringValue ("1000.0"),
+                                 "Y", StringValue ("1000.0"),
                                  "Rho", StringValue ("ns3::UniformRandomVariable[Min=0|Max=1000]"));//GM-MAC : random position allocator, standard is (5000,5000)
 
   sensorMobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel",
                              "Mode", StringValue ("Time"),
                              "Time", StringValue ("5s"),
-                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=5.0]"),
-                             "Bounds", StringValue ("0|5000|0|5000"));
+                             "Speed", StringValue ("ns3::ConstantRandomVariable[Constant=3.0]"),
+                             "Bounds", StringValue ("0|2000|0|2000"));
   for(int i=1;i<numNodes;i++) {
     sensorMobility.Install(c.Get(i));
   }
@@ -298,17 +299,25 @@ int main (int argc, char *argv[])
    /** Energy Model **/
   /***************************************************************************/
   /* energy source */
+  
   BasicEnergySourceHelper basicSourceHelper;
   // configure energy source
   basicSourceHelper.Set ("BasicEnergySourceInitialEnergyJ", DoubleValue (10000));//GM-MAC : 100J
   // install source
   EnergySourceContainer sources = basicSourceHelper.Install (c); //GM-MAC : installing 100J to each sensor
+  
   /* device energy model */
+  
   WifiRadioEnergyModelHelper radioEnergyHelper;
   // configure radio energy model
-  radioEnergyHelper.Set ("TxCurrentA", DoubleValue (0.0174));
+  radioEnergyHelper.Set ("TxCurrentA", DoubleValue (0.38));
+  radioEnergyHelper.Set ("RxCurrentA", DoubleValue (0.313));
+  radioEnergyHelper.Set ("IdleCurrentA", DoubleValue (0.273));
+  radioEnergyHelper.Set ("CcaBusyCurrentA", DoubleValue (0.273));
+  radioEnergyHelper.Set ("SleepCurrentA", DoubleValue (0.033));
   // install device model
   DeviceEnergyModelContainer deviceModels = radioEnergyHelper.Install (devices, sources);
+
   /***************************************************************************/
 
   InternetStackHelper internet;
@@ -344,22 +353,16 @@ int main (int argc, char *argv[])
   /***************************************************************************/
   // all sources are connected to node 1
   // energy source
+
   for(int i=0;i<numNodes;i++) {
     basicSourcePtr.push_back(DynamicCast<BasicEnergySource> (sources.Get (i)));
   }
   Simulator::Schedule(Minutes(energyTrackingTime), &EnergyTracking);
-
-  //basicSourcePtr0->TraceConnectWithoutContext ("RemainingEnergy", MakeBoundCallback (&RemainingEnergy, c.Get(0)));
-  // device energy model
-  /*
-  Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr0->FindDeviceEnergyModels ("ns3::WifiRadioEnergyModel").Get (0);
-  NS_ASSERT (basicRadioModelPtr != NULL);
-  basicRadioModelPtr->TraceConnectWithoutContext ("TotalEnergyConsumption" ,MakeCallback (&TotalEnergy));
-  */
+  
   /***************************************************************************/
 
   // Tracing
-  wifiPhy.EnablePcap ("wifi-simple-adhoc", devices);
+  //wifiPhy.EnablePcap ("wifi-simple-adhoc", devices);
 
   // Output what we are doing
   //NS_LOG_UNCOND ("Testing " << numPackets  << " packets sent with receiver rss " << rss );
@@ -368,7 +371,7 @@ int main (int argc, char *argv[])
   Simulator::ScheduleWithContext (source[0]->GetNode ()->GetId (),
                                   Seconds (1.0), &Initialization,
                                   source[0]);
-  Simulator::Schedule (Seconds(genDataDuration), &SenseData);//GM-MAC : getDataDuration : how often sensing data
+  Simulator::Schedule (Minutes(genDataDuration), &SenseData);//GM-MAC : getDataDuration : how often sensing data
 
   //Simulator::Stop(Seconds(stopTime));
   Simulator::Run ();
