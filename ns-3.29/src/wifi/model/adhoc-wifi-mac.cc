@@ -166,13 +166,23 @@ void AdhocWifiMac::ReceiveData(Ptr<Packet> p, const WifiMacHeader *hdr) {
 void AdhocWifiMac::Sleep(void) {
   m_low->Sleep();
 }
+
+void AdhocWifiMac::IsSet(void) {
+  Ptr<Node> node = m_stationManager->GetNode();
+  if(node->GetGroupNumber() == -1) {
+    SetStateType(NODE_SLEEP);
+    Sleep();
+  }
+}
 // GM-MAC
 void AdhocWifiMac::Active(void) {
   Ptr<Node> node = m_stationManager->GetNode();
+  Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
+  Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
 
   m_activeNum++;    // if activeNum is up to periodicResettingThreshold, all nodes get to group number setting process.
   if(m_activeNum == periodicResettingThreshold) {
-    cout << "Group Number Initailization " << node->GetId() <<  "\n";
+    //cout << Simulator::Now() << " Group Number Initailization " << hex << node->GetId()+1 <<  "\n";
     m_activeNum = 0;
     m_requestFailCount = 0;
     SetStateType(INIT);
@@ -180,14 +190,15 @@ void AdhocWifiMac::Active(void) {
     if(node->GetId() == 0) {    // if activated node is SINK, it starts to send initailization packet.
       Mac48Address m("ff:ff:ff:ff:ff:ff");
       Ptr<Packet> packet = Create<Packet> (0);
-      Enqueue(packet, m);
-      //Simulator::Schedule(MilliSeconds(300), &AdhocWifiMac::Enqueue, this, packet, m);
+      //Enqueue(packet, m);
+      Simulator::Schedule(MilliSeconds(5), &AdhocWifiMac::Enqueue, this, packet, m);
     }
+    Simulator::Schedule(MilliSeconds(100), &AdhocWifiMac::IsSet, this);
   }
   if(GetStateType() != INIT) {    // sensor nodes sleep when it doesn't take any packets from other node except INIT state.
-    if(m_requestFailCount == 4) { // When a sensor node couldn't take REPLY packet  4 times for REQUEST packet, it takes a sleep until periodic resetting.
+    if(m_requestFailCount == 4 || GetStateType() == NODE_SLEEP) { // When a sensor node couldn't take REPLY packet  4 times for REQUEST packet, it takes a sleep until periodic resetting.
       Sleep();
-      void (AdhocWifiMac::*fp2)(void) = &AdhocWifiMac::Active;
+      void (AdhocWifiMac::*fp2)(void) = &AdhocWifiMac::Active;  // for periodic resetting
       m_activeId = Simulator::Schedule(MilliSeconds(node->GetFrameSize()), fp2, this);
       return;
     }
@@ -198,16 +209,13 @@ void AdhocWifiMac::Active(void) {
   void (AdhocWifiMac::*fp2)(void) = &AdhocWifiMac::Active;
   m_activeId = Simulator::Schedule(MilliSeconds(node->GetFrameSize()), fp2, this);
 
-  Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
-  Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
-  Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
-  basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.313));
-  basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.38));
-  basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.273));
-  basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.273));
-  basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.033));
-
   m_phy->ResumeFromSleep(); //GM-MAC : activing
+
+  Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
+  basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.056));
+  basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.120));
+  basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.070));
+  basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.015));
   // DataTransmission
   // 1. the amount of data is over buffer threshold
   // 2. the node is sensor node, not sink
@@ -466,7 +474,7 @@ AdhocWifiMac::Receive (Ptr<Packet> packet, const WifiMacHeader *hdr)
           SetStateType(INIT);
           node->SetParentMacAddress(from);
 
-          node->SetNodeState(NODE_INIT);
+          //node->SetNodeState(NODE_INIT);
           node->SetFrameSize(hdr->GetFrameSize());
           node->SetTA(hdr->GetTA());
           //NS_LOG_UNCOND("WIFI_MAC_GM_INIT");

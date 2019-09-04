@@ -584,6 +584,10 @@ WifiPhyStateHelper::SwitchToOff (void)
   Time now = Simulator::Now ();
   switch (GetState ())
     {
+    case WifiPhyState::SLEEP:
+      m_sleeping = false;
+      m_stateLogger(m_startSleep, now - m_startSleep, WifiPhyState::SLEEP);
+      break;
     case WifiPhyState::RX:
       /* The packet which is being received as well
        * as its endRx event are cancelled by the caller.

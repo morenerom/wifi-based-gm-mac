@@ -144,17 +144,16 @@ void MacLow::Sleep(void) {
   //NS_LOG_UNCOND(Simulator::Now() << " " << n->GetId()+1 << " MacLow::Sleep");
   Ptr<Node> node = m_stationManager->GetNode();
   
+  NotifySleepNow();
+  m_phy->SetSleepMode();
+
   Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
   Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
   Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
   basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.0));
   basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.0));
   basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.0));
-  basicRadioModelPtr->SetAttribute("CcaBusyCurrentA", DoubleValue(0.0));
-  basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.0));
-  
-  NotifySleepNow();
-  m_phy->SetSleepMode();
+  basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.015));
 }
 
 /* static */
@@ -747,9 +746,14 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
   WifiMacHeader hdr;
   packet->RemoveHeader (hdr);
 
-  // GM-MAC
-  if((hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA) && (hdr.GetAddr1() == m_self))
-    m_receivedGmType = WIFI_MAC_GM_DATA;
+  if(hdr.IsData() && hdr.GetAddr1() == m_self) {
+    if(hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA)
+      m_receivedGmType = WIFI_MAC_GM_DATA;
+    else if(hdr.GetCtrlPktType() == WIFI_MAC_GM_REPLY)
+      m_receivedGmType = WIFI_MAC_GM_REPLY;
+    else
+      m_receivedGmType = WIFI_MAC_GM_INIT;    // it is not DATA or REPLY
+  }
 
   //NS_LOG_UNCOND("MacLow::ReceiveOk header type checking : " << hdr.GetType());
   bool isPrevNavZero = IsNavZero ();
@@ -845,9 +849,8 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
         }
       if (gotAck)
         {
-          //GM-MAC : clear buffer when node receives ACK for WIFI_MAC_GM_DATA
           if(hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA) {
-            //NS_LOG_UNCOND("ACK::BUFFERCLEAR " << node->GetId()+1);
+            //cout << "ACK::BUFFERCLEAR " << node->GetId()+1 << '\n';
             node->BufferClear();
             node->SetDataAmount(0);
           }
@@ -1816,6 +1819,7 @@ MacLow::SendDataPacket (void)
             }
         }
       m_currentHdr.SetDuration (duration);
+      //cout << duration << '\n';
     }
   else
     {
@@ -2129,11 +2133,7 @@ MacLow::SendAckAfterData (Mac48Address source, Time duration, WifiMode dataTxMod
   ack.SetNoMoreFragments ();
   ack.SetAddr1 (source);
 
-  if(m_receivedGmType == WIFI_MAC_GM_DATA)
-  {
-    ack.SetCtrlPktType(m_receivedGmType);
-    m_receivedGmType = WIFI_MAC_GM_INIT; 
-  }
+  ack.SetCtrlPktType(m_receivedGmType);
 
   // 802.11-2012, Section 8.3.1.4:  Duration/ID is received duration value
   // minus the time to transmit the ACK frame and its SIFS interval

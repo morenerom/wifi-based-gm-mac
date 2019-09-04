@@ -39,7 +39,8 @@ enum StateType {
   INIT = 0,  // group number is not set
   SET,  // group number is set
   REQUEST,
-  REPLY
+  REPLY,
+  NODE_SLEEP
 };
 
 class AdhocWifiMac : public RegularWifiMac
@@ -55,6 +56,8 @@ public:
   virtual ~AdhocWifiMac ();
 
   void Sleep(void);
+
+  void IsSet(void);
 
   void CancelTA (void);
 

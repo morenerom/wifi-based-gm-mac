@@ -302,7 +302,7 @@ int main (int argc, char *argv[])
   
   BasicEnergySourceHelper basicSourceHelper;
   // configure energy source
-  basicSourceHelper.Set ("BasicEnergySourceInitialEnergyJ", DoubleValue (10000));//GM-MAC : 100J
+  basicSourceHelper.Set ("BasicEnergySourceInitialEnergyJ", DoubleValue (2430));//GM-MAC : 100J
   // install source
   EnergySourceContainer sources = basicSourceHelper.Install (c); //GM-MAC : installing 100J to each sensor
   
@@ -310,11 +310,10 @@ int main (int argc, char *argv[])
   
   WifiRadioEnergyModelHelper radioEnergyHelper;
   // configure radio energy model
-  radioEnergyHelper.Set ("TxCurrentA", DoubleValue (0.38));
-  radioEnergyHelper.Set ("RxCurrentA", DoubleValue (0.313));
-  radioEnergyHelper.Set ("IdleCurrentA", DoubleValue (0.273));
-  radioEnergyHelper.Set ("CcaBusyCurrentA", DoubleValue (0.273));
-  radioEnergyHelper.Set ("SleepCurrentA", DoubleValue (0.033));
+  radioEnergyHelper.Set ("TxCurrentA", DoubleValue (0.120));
+  radioEnergyHelper.Set ("RxCurrentA", DoubleValue (0.056));
+  radioEnergyHelper.Set ("IdleCurrentA", DoubleValue (0.070));
+  radioEnergyHelper.Set ("SleepCurrentA", DoubleValue (0.015));
   // install device model
   DeviceEnergyModelContainer deviceModels = radioEnergyHelper.Install (devices, sources);
 

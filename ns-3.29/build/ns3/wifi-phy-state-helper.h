@@ -27,6 +27,7 @@
 #include "ns3/nstime.h"
 #include "wifi-phy-state.h"
 #include "wifi-preamble.h"
+#include <iostream>
 
 namespace ns3 {
 

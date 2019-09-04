@@ -91,7 +91,7 @@ public:
   uint64_t GetTotalDataAmount (void) const;
 
   void SetGroupNumber(int16_t groupNumber);
-  uint16_t GetGroupNumber (void) const;
+  int16_t GetGroupNumber (void) const;
 
   void SetNodeType (NodeType nodeType);
   NodeType GetNodeType (void);

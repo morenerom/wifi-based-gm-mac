@@ -384,7 +384,38 @@ WifiRadioEnergyModel::ChangeState (int newState)
   // update total energy consumption
   m_totalEnergyConsumption += energyToDecrease;
   NS_ASSERT (m_totalEnergyConsumption <= m_source->GetInitialEnergy ());
-
+/*
+  if(m_source->GetNode()->GetId() == 16 || m_source->GetNode()->GetId() == 15)
+  {
+    if(Simulator::Now() >= Hours(1) && Simulator::Now() <= Hours(2)) {
+      string a;
+      switch(m_currentState) {
+        case 0:
+          a = "IDLE";
+          break;
+        case 1:
+          a = "CCA_BUSY";
+          break;
+        case 2:
+          a = "TX";
+          break;
+        case 3:
+          a = "RX";
+          break;
+        case 4:
+          a = "SWITCHING";
+          break;
+        case 5:
+          a = "SLEEP";
+          break;
+        case 6:
+          a = "OFF";
+          break;
+      }
+      cout << Simulator::Now() << " " << hex << m_source->GetNode()->GetId()+1 << " " << a << " " << energyToDecrease << " " << m_idleCurrentA << '\n';
+    }
+  }
+*/
   // update last update time stamp
   m_lastUpdateTime = Simulator::Now ();
 
