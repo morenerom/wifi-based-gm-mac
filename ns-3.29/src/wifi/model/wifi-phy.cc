@@ -415,6 +415,23 @@ WifiPhy::SetReceiveOkCallback (RxOkCallback callback)
 {
   m_state->SetReceiveOkCallback (callback);
 }
+// GM-MAC : sleep
+void
+WifiPhy::SetDoSleepCallback (DoSleepCallback callback)
+{
+  m_doSleepCallback = callback;
+}
+
+void
+WifiPhy::SetCancelSleepCallback (CancelSleepCallback callback)
+{
+  m_cancelSleepCallback = callback;
+}
+
+void WifiPhy::DoSleep(void) {
+  m_doSleepCallback();
+}
+/////////
 
 void
 WifiPhy::SetReceiveErrorCallback (RxErrorCallback callback)
@@ -2353,6 +2370,9 @@ WifiPhy::SendPacket (Ptr<const Packet> packet, WifiTxVector txVector, MpduType m
   WifiPhyTag tag (txVector, mpdutype, isFrameComplete);
   newPacket->AddPacketTag (tag);
 
+  //GM-MAC : sleep
+  m_cancelSleepCallback();    // cancel sleep
+  Simulator::Schedule(txDuration, &WifiPhy::DoSleep, this);    // schedule sleep after tx is done
   StartTx (newPacket, txVector, txDuration);
 }
 
@@ -2569,6 +2589,8 @@ WifiPhy::EndReceive (Ptr<Packet> packet, WifiPreamble preamble, MpduType mpdutyp
           aMpdu.type = mpdutype;
           aMpdu.mpduRefNumber = m_rxMpduReferenceNumber;
           NotifyMonitorSniffRx (packet, GetFrequency (), event->GetTxVector (), aMpdu, signalNoise);
+          //GM-MAC : sleep
+          DoSleep();
           m_state->SwitchFromRxEndOk (packet, snrPer.snr, event->GetTxVector ());
         }
       else
@@ -3683,6 +3705,8 @@ WifiPhy::StartRx (Ptr<Packet> packet, WifiTxVector txVector, MpduType mpdutype, 
         }
 
       NS_ASSERT (m_endRxEvent.IsExpired ());
+      //GM-MAC : sleep
+      m_cancelSleepCallback();
       m_endRxEvent = Simulator::Schedule (rxDuration, &WifiPhy::EndReceive, this,
                                           packet, preamble, mpdutype, event);
     }

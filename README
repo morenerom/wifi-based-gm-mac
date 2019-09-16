@@ -76,3 +76,9 @@ Version 1.3
 
 * Error on WifiPhyStateHelper::SwitchToOff fixed.
 - wifi-phy-state-helper
+--------------------------------------------------
+Version 1.4
+* [Update] T-MAC based Sleep Period -> When a sensor node takes any radio signal, it cancels last sleep event and schedules next sleep event after receiving over.
+- adhoc-wifi-mac
+- mac-low
+- wifi-phy

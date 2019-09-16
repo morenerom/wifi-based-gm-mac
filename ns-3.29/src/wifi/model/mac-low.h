@@ -77,7 +77,11 @@ public:
   MacLow ();
   virtual ~MacLow ();
 
+  void CancelSleep(void);
+
   void Sleep(void);
+
+  void ScheduleSleep(void);
 
   /**
    * Register this type.
@@ -276,6 +280,10 @@ public:
    * an instance of ns3::MacRxMiddle.
    */
   void SetRxCallback (Callback<void,Ptr<Packet>,const WifiMacHeader *> callback);
+
+  void DoSleepCallback (Callback<void> callback);
+
+  void CancelSleepCallback (Callback<void> callback);
 
   void SetStateCallback (Callback<void, StateType> callback);
 

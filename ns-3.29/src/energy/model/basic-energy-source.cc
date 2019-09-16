@@ -170,6 +170,7 @@ BasicEnergySource::UpdateEnergySource (void)
   if (!m_depleted && m_remainingEnergyJ <= m_lowBatteryTh * m_initialEnergyJ)
     {
       m_depleted = true;
+      Simulator::Stop();
       HandleEnergyDrainedEvent ();
     }
   else if (m_depleted && m_remainingEnergyJ > m_highBatteryTh * m_initialEnergyJ)

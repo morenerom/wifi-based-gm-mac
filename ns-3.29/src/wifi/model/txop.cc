@@ -328,6 +328,7 @@ Txop::RestartAccessIfNeeded (void)
       && !IsAccessRequested ()
       && !m_low->IsCfPeriod ())
     {
+      //cout << "Txop::RestartAccessIfNeeded\n";
       m_channelAccessManager->RequestAccess (this);
     }
 }
@@ -460,6 +461,7 @@ Txop::NotifyAccessRequested (void)
 void
 Txop::NotifyAccessGranted (void)
 {
+  //cout << "Txop::NotifyAccessGranted\n";
   Ptr<Node> node = m_stationManager->GetNode();
   //NS_LOG_UNCOND(node->GetId()+1 << " Txop::NotifyAccessGranted");
   NS_LOG_FUNCTION (this);
@@ -586,11 +588,12 @@ Txop::NotifyOn (void)
 void
 Txop::MissedCts (void)
 {
+  //cout << "Txop::MissedCts\n";
   NS_LOG_FUNCTION (this);
   NS_LOG_DEBUG ("missed cts");
   if (!NeedRtsRetransmission (m_currentPacket, m_currentHdr))
     {
-      NS_LOG_DEBUG ("Cts Fail");
+      //cout << "Cts Fail\n";
       m_stationManager->ReportFinalRtsFailed (m_currentHdr.GetAddr1 (), &m_currentHdr);
       if (!m_txFailedCallback.IsNull ())
         {
@@ -602,6 +605,7 @@ Txop::MissedCts (void)
     }
   else
     {
+      //cout << "Cts Retransmission\n";
       UpdateFailedCw ();
     }
   StartBackoffNow (m_rng->GetInteger (0, GetCw ()));

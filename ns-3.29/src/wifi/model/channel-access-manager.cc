@@ -342,15 +342,17 @@ ChannelAccessManager::GrantPcfAccess (Ptr<Txop> state) //to be renamed
 void
 ChannelAccessManager::DoGrantAccess (void)
 {
-  //NS_LOG_UNCOND("ChannelAccessManager::DoGrantAccess");
+  //cout << "ChannelAccessManager::DoGrantAccess\n";
   NS_LOG_FUNCTION (this);
   uint32_t k = 0;
   for (States::iterator i = m_states.begin (); i != m_states.end (); k++)
     {
       Ptr<Txop> state = *i;
+      //cout << "Here0 " << state->IsAccessRequested () << " " << (GetBackoffEndFor (state) <= Simulator::Now ()) << '\n';
       if (state->IsAccessRequested ()
           && GetBackoffEndFor (state) <= Simulator::Now () )
         {
+          //cout << "Here1\n";
           /**
            * This is the first dcf we find with an expired backoff and which
            * needs access to the medium. i.e., it has data to send.
@@ -398,6 +400,7 @@ ChannelAccessManager::DoGrantAccess (void)
 void
 ChannelAccessManager::AccessTimeout (void)
 {
+  //cout << "ChannelAccessManager::AccessTimeout\n";
   NS_LOG_FUNCTION (this);
   UpdateBackoff ();
   DoGrantAccess ();

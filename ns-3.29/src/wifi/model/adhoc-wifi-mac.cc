@@ -180,6 +180,8 @@ void AdhocWifiMac::Active(void) {
   Ptr<EnergySourceContainer> EnergySourceContainerOnNode = node->GetObject<EnergySourceContainer> ();
   Ptr<BasicEnergySource> basicSourcePtr = DynamicCast<BasicEnergySource> (EnergySourceContainerOnNode->Get(0));
 
+  // GM-MAC : Periodic Resetting
+  
   m_activeNum++;    // if activeNum is up to periodicResettingThreshold, all nodes get to group number setting process.
   if(m_activeNum == periodicResettingThreshold) {
     //cout << Simulator::Now() << " Group Number Initailization " << hex << node->GetId()+1 <<  "\n";
@@ -195,6 +197,7 @@ void AdhocWifiMac::Active(void) {
     }
     Simulator::Schedule(MilliSeconds(100), &AdhocWifiMac::IsSet, this);
   }
+  
   if(GetStateType() != INIT) {    // sensor nodes sleep when it doesn't take any packets from other node except INIT state.
     if(m_requestFailCount == 4 || GetStateType() == NODE_SLEEP) { // When a sensor node couldn't take REPLY packet  4 times for REQUEST packet, it takes a sleep until periodic resetting.
       Sleep();
@@ -210,12 +213,13 @@ void AdhocWifiMac::Active(void) {
   m_activeId = Simulator::Schedule(MilliSeconds(node->GetFrameSize()), fp2, this);
 
   m_phy->ResumeFromSleep(); //GM-MAC : activing
-
+/*
   Ptr<DeviceEnergyModel> basicRadioModelPtr = basicSourcePtr->FindDeviceEnergyModels("ns3::WifiRadioEnergyModel").Get(0);
   basicRadioModelPtr->SetAttribute("RxCurrentA", DoubleValue(0.056));
   basicRadioModelPtr->SetAttribute("TxCurrentA", DoubleValue(0.120));
   basicRadioModelPtr->SetAttribute("IdleCurrentA", DoubleValue(0.070));
   basicRadioModelPtr->SetAttribute("SleepCurrentA", DoubleValue(0.015));
+*/
   // DataTransmission
   // 1. the amount of data is over buffer threshold
   // 2. the node is sensor node, not sink
@@ -234,7 +238,7 @@ void AdhocWifiMac::SelectParentNode(void) {
   if(m_receivedInfo.empty()) {
     m_requestFailCount++;
     cout << "id : " << hex << node->GetId()+1 << " Parent node resetting FAIL " << '\n';
-    SetStateType(REQUEST);  // If regrouping is failed, it starts to send data.
+    SetStateType(REQUEST);  // If regrouping is failed, it starts to send REQUEST packet.
     return ;
   }
 
@@ -375,7 +379,7 @@ AdhocWifiMac::Enqueue (Ptr<const Packet> packet, Mac48Address to)
         //NS_LOG_UNCOND (Simulator::Now() << " / from : " << m_low->GetAddress() <<" ---> to : " << to);
       }
       else if (GetStateType() == REQUEST) {
-        NS_LOG_UNCOND(Simulator::Now() << " AdhocWifiMac::Enqueue::REQUEST " << node->GetId()+1);
+        cout << Simulator::Now() << " AdhocWifiMac::Enqueue::REQUEST " << hex << node->GetId()+1 << '\n';
         hdr.SetCtrlPktType(WIFI_MAC_GM_REQUEST);
 
         void (AdhocWifiMac::*fp)(void) = &AdhocWifiMac::SelectParentNode;

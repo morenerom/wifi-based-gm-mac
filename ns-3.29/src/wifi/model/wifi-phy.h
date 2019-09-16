@@ -56,6 +56,9 @@ struct MpduInfo
   uint32_t mpduRefNumber; ///< MPDU ref number
 };
 
+typedef Callback<void> DoSleepCallback;
+typedef Callback<void> CancelSleepCallback;
+
 /**
  * \brief 802.11 PHY layer model
  * \ingroup wifi
@@ -83,6 +86,13 @@ public:
    *        upon erroneous packet reception.
    */
   void SetReceiveErrorCallback (RxErrorCallback callback);
+
+  //GM-MAC : sleep
+  void SetDoSleepCallback (DoSleepCallback callback);
+
+  void SetCancelSleepCallback (CancelSleepCallback callback);
+
+  void DoSleep(void);
 
   /**
    * \param listener the new listener
@@ -1792,6 +1802,10 @@ private:
   Ptr<WifiRadioEnergyModel> m_wifiRadioEnergyModel; //!< Wifi radio energy model
 
   Callback<void> m_capabilitiesChangedCallback; //!< Callback when PHY capabilities changed
+
+  // GM-MAC : Sleep
+  DoSleepCallback m_doSleepCallback;
+  CancelSleepCallback m_cancelSleepCallback;
 };
 
 /**

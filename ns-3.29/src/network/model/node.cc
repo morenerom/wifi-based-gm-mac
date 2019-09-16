@@ -159,7 +159,7 @@ double Node::GetBufferThreshold (void) const {
 
 void Node::SetGroupNumber(int16_t groupNumber) {
   m_groupNumber = groupNumber;
-  m_bufferThreshold = 1024.0 / (m_groupNumber + 4);
+  m_bufferThreshold = 3072.0 / (m_groupNumber + 4);
 }
 int16_t Node::GetGroupNumber (void) const {
   return m_groupNumber;
