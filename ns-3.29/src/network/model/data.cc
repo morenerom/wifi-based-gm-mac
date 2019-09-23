@@ -56,4 +56,18 @@ uint16_t Data::GetData (void) const {
 void Data::SetData (uint16_t data) {
 	m_data = data;
 }
+
+double Data::GetX(void) const {
+	return m_x;
+}
+void Data::SetX (double x) {
+	m_x = x;
+}
+
+double Data::GetY(void) const {
+	return m_y;
+}
+void Data::SetY(double y) {
+	m_y = y;
+}
 }

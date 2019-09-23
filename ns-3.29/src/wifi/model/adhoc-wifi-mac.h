@@ -27,6 +27,8 @@
 #include "ns3/wifi-phy.h"
 #include <utility>
 
+#define DATA_SIZE 28
+
 namespace ns3 {
 
 /**

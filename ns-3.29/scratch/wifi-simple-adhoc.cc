@@ -91,6 +91,7 @@ NS_LOG_COMPONENT_DEFINE ("WifiSimpleAdhoc");
 #define frameSize 610 // T-MAC frame size (ms)
 #define TA 15 // T-MAC TA (ms)
 #define energyTrackingTime 60 // Energy Tracking per time (min)
+#define DATA_SIZE 28
 
 Ptr<Socket> recvSink[numNodes];
 Ptr<Socket> source[numNodes];
@@ -140,10 +141,16 @@ void SenseData (void) {
     curData->SetDataType (0);
     curData->SetNodeId (c.Get(i)->GetId());//GM-MAC : me
     curData->SetGenTime (Simulator::Now().GetTimeStep());
+    
+    Ptr<MobilityModel> mm = c.Get(i)->GetObject<MobilityModel> ();
+    Vector pos = mm->GetPosition();
+    curData->SetX(pos.x);
+    curData->SetY(pos.y);
+    
     curData->SetData (0);//GM-MAC : real data
 
     c.Get(i)->AddData (curData);
-    c.Get(i)->AddDataAmount (12);//GM-MAC : if updating GM-Data-Header, edit this
+    //c.Get(i)->AddDataAmount (DATA_SIZE);//GM-MAC : if updating GM-Data-Header, edit this
     //NS_LOG_UNCOND(c.Get(i)->GetId() << " : " << c.Get(i)->GetDataAmount());
   }
 
@@ -244,8 +251,8 @@ int main (int argc, char *argv[])
     {
       wifi.EnableLogComponents ();  // Turn on all Wifi logging
     }
-  wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
-
+  wifi.SetStandard (WIFI_PHY_STANDARD_80211n_2_4GHZ);
+  //wifi.SetStandard (WIFI_PHY_STANDARD_80211b);
   /** Wifi PHY **/
   /***************************************************************************/
   YansWifiPhyHelper wifiPhy = YansWifiPhyHelper::Default ();
@@ -266,7 +273,7 @@ int main (int argc, char *argv[])
   wifi.SetRemoteStationManager ("ns3::ConstantRateWifiManager",
                                 "DataMode",StringValue (phyMode),
                                 "ControlMode",StringValue (phyMode),
-                                "RtsCtsThreshold", UintegerValue(32));    //Disable RTS for REPLY packet (value = 32)
+                                "RtsCtsThreshold", UintegerValue(40));    //Disable RTS for REPLY packet (value = 32)
 
   wifiMac.SetType ("ns3::AdhocWifiMac");
   NetDeviceContainer devices = wifi.Install (wifiPhy, wifiMac, c);
@@ -274,22 +281,22 @@ int main (int argc, char *argv[])
 //GM-MAC : add position to sink 
   MobilityHelper sinkMobility;
   Ptr<ListPositionAllocator> sinkPositionAlloc = CreateObject<ListPositionAllocator> ();
-  sinkPositionAlloc->Add (Vector (1000.0, 1000.0, 0));
-  /*
+  sinkPositionAlloc->Add (Vector (1500.0, 1500.0, 0));
+  
   for(int i = 300; i<3000; i+=600) {
     for(int j=300;j<3000; j+=600) {
       sinkPositionAlloc->Add (Vector(i,j,0));
     }
   }
-  */
+  
   sinkMobility.SetPositionAllocator (sinkPositionAlloc);
   sinkMobility.SetMobilityModel ("ns3::ConstantPositionMobilityModel");
-  sinkMobility.Install (c.Get(0));//GM-MAC : if there is another sinks, install that.
-  //sinkMobility.Install (c);//GM-MAC : if there is another sinks, install that.
+  //sinkMobility.Install (c.Get(0));//GM-MAC : if there is another sinks, install that.
+  sinkMobility.Install (c);//GM-MAC : if there is another sinks, install that.
 ///////////////////////////////
 
 //GM-MAC : add mobility to sensor
-
+/*
   MobilityHelper sensorMobility;
   sensorMobility.SetPositionAllocator ("ns3::RandomDiscPositionAllocator",
                                  "X", StringValue ("1000.0"),
@@ -304,7 +311,7 @@ int main (int argc, char *argv[])
   for(int i=1;i<numNodes;i++) {
     sensorMobility.Install(c.Get(i));
   }
-
+*/
    /** Energy Model **/
   /***************************************************************************/
   /* energy source */
@@ -381,7 +388,7 @@ int main (int argc, char *argv[])
                                   source[0]);
   Simulator::Schedule (Seconds(genDataDuration), &SenseData);//GM-MAC : getDataDuration : how often sensing data
 
-  //Simulator::Stop(Seconds(stopTime));
+  //Simulator::Stop(Seconds(500));
   Simulator::Run ();
   Simulator::Destroy ();
 

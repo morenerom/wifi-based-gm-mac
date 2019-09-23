@@ -24,6 +24,11 @@ public:
 	void SetNodeId (uint16_t nodeId);
 	uint16_t GetData (void) const;
 	void SetData (uint16_t data);
+	double GetX(void) const;
+	void SetX (double x);
+	double GetY(void) const;
+	void SetY (double y);
+
 private:
 	uint64_t m_genTime;
 	uint64_t m_arrTime;
@@ -31,6 +36,8 @@ private:
 	uint8_t m_dataType;
 	uint16_t m_nodeId;
 	uint16_t m_data;
+	double m_x;
+	double m_y;
 };
 }
 #endif

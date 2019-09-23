@@ -49,6 +49,20 @@ vector<uint16_t> GmDataHeader::GetSensedData (void) const {
   return m_sensedData;
 }
 
+void GmDataHeader::AddX (double x) {
+  m_x.push_back(x);
+}
+vector<double> GmDataHeader::GetX (void) const {
+  return m_x;
+}
+
+void GmDataHeader::AddY (double y) {
+  m_y.push_back(y);
+}
+vector<double> GmDataHeader::GetY (void) const {
+  return m_y;
+}
+
  TypeId
  GmDataHeader::GetTypeId (void)
  {
@@ -72,7 +86,7 @@ vector<uint16_t> GmDataHeader::GetSensedData (void) const {
  uint32_t
  GmDataHeader::GetSerializedSize (void) const
  {
-   return m_sensedData.size() * 12;   // 12 is the size of sensed data
+   return m_sensedData.size() * DATA_SIZE;  
  }
  void
  GmDataHeader::Serialize (Buffer::Iterator start) const
@@ -87,6 +101,8 @@ vector<uint16_t> GmDataHeader::GetSensedData (void) const {
     val |= (m_sensedNodeId[i] << 5) & (0x7ff << 5);
     start.WriteHtolsbU16 (val);
     start.WriteHtolsbU64 (m_sensedGenTime[i]);
+    start.WriteHtolsbU64 (m_x[i]);
+    start.WriteHtolsbU64 (m_y[i]);
     start.WriteHtolsbU16 (m_sensedData[i]);
   }
  }
@@ -97,7 +113,7 @@ vector<uint16_t> GmDataHeader::GetSensedData (void) const {
    // we read them in network byte order and store them
    // in host byte order.
     Buffer::Iterator s = start;
-    int len = s.GetSize() / 12;//GM-MAC :12 is 12bytes. if there is another data, 12 will be edited
+    int len = s.GetSize() / DATA_SIZE;//GM-MAC :12 is 12bytes. if there is another data, 12 will be edited
     //NS_LOG_UNCOND("len : " << len);
     uint16_t val;
     for(int i = 0; i < len; i++) {
@@ -106,6 +122,8 @@ vector<uint16_t> GmDataHeader::GetSensedData (void) const {
       m_sensedDataType.push_back((val >> 2) & (0x07));
       m_sensedNodeId.push_back((val >> 5) & (0x7ff));
       m_sensedGenTime.push_back(s.ReadLsbtohU64());
+      m_x.push_back(s.ReadLsbtohU64());
+      m_y.push_back(s.ReadLsbtohU64());
       m_sensedData.push_back(s.ReadLsbtohU16());
     }
  

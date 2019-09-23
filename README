@@ -82,3 +82,12 @@ Version 1.4
 - adhoc-wifi-mac
 - mac-low
 - wifi-phy
+--------------------------------------------------
+Version 2.0
+* IEEE 802.11n 2.4GHZ
+
+* [Update] Data format -> Add location information (x, y), data size is changed 12 bytes to 28 bytes
+- gm-data-header
+- data
+- wifi-simple-adhoc
+- adhoc-wifi-mac

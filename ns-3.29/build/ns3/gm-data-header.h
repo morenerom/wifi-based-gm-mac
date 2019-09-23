@@ -6,6 +6,8 @@
 
 using namespace std;
 
+#define DATA_SIZE 28
+
 namespace ns3 {
 
 enum DataType {
@@ -30,6 +32,10 @@ class GmDataHeader : public Header
    vector<uint16_t> GetSensedNodeId (void) const;
    void AddData (uint16_t sensedData);
    vector<uint16_t> GetSensedData (void) const;
+   void AddX (double x);
+   vector<double> GetX (void) const;
+   void AddY (double y);
+   vector<double> GetY (void) const;
  
    static TypeId GetTypeId (void);
    virtual TypeId GetInstanceTypeId (void) const;
@@ -43,6 +49,8 @@ class GmDataHeader : public Header
    vector<uint8_t> m_sensedDataType;		// the type of data (temperature, humidity)
    vector<uint16_t> m_sensedNodeId;			// the own number of nodes
    vector<uint16_t> m_sensedData;
+   vector<double> m_x;
+   vector<double> m_y;
  };
 }
 

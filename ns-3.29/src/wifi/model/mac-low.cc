@@ -864,15 +864,16 @@ MacLow::ReceiveOk (Ptr<Packet> packet, double rxSnr, WifiTxVector txVector, bool
         }
       if (gotAck)
         {
-          if(hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA) {
-            //cout << "ACK::BUFFERCLEAR " << node->GetId()+1 << '\n';
+          if(hdr.GetCtrlPktType() == WIFI_MAC_GM_DATA && !m_txParams.HasNextPacket()) {
+            cout << "ACK::BUFFERCLEAR " << node->GetId()+1 << '\n';
             node->BufferClear();
-            node->SetDataAmount(0);
+            //node->SetDataAmount(0);
           }
           m_currentTxop->GotAck ();
         }
       if (m_txParams.HasNextPacket () && (!m_currentHdr.IsQosData () || m_currentTxop->GetTxopLimit ().IsZero () || m_currentTxop->HasTxop ()))
         {
+          //cout << "hasNextPacket\n" ;
           if (m_stationManager->GetRifsPermitted ())
             {
               m_waitIfsEvent = Simulator::Schedule (GetRifs (), &MacLow::WaitIfsAfterEndTxFragment, this);
@@ -1661,7 +1662,7 @@ void
 MacLow::SendRtsForPacket (void)
 {
   Ptr<Node> node = m_stationManager->GetNode();
-  //cout << Simulator::Now() << " MacLow::SendRtsForPacket " << node->GetId()+1 << '\n';
+  //cout << Simulator::Now() << " MacLow::SendRtsForPacket " << hex << node->GetId()+1 << '\n';
   NS_LOG_FUNCTION (this);
   /* send an RTS for this packet. */
   WifiMacHeader rts;
@@ -1784,7 +1785,7 @@ MacLow::StartDataTxTimers (WifiTxVector dataTxVector)
 void
 MacLow::SendDataPacket (void)
 {
-  //NS_LOG_UNCOND("SendDataPacket");
+  //cout << "MacLow::SendDataPacket\n";
   NS_LOG_FUNCTION (this);
   /* send this packet directly. No RTS is needed. */
   StartDataTxTimers (m_currentTxVector);
